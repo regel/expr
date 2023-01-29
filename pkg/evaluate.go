@@ -4,12 +4,12 @@ import (
 	"strconv"
 )
 
-func evaluate(node *AST) int {
+func evaluate(node *AST) float64 {
 	if node == nil {
 		return 0
 	}
 	if node.token.typ == number {
-		value, _ := strconv.Atoi(node.token.val)
+		value, _ := strconv.ParseFloat(node.token.val, 64)
 		return value
 	}
 

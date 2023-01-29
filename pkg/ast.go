@@ -91,24 +91,51 @@ func tokenize(expression string) []Token {
 			continue
 		} else if isOperator(string(char)) {
 			if buf.Len() > 0 {
-				tokens = append(tokens, Token{typ: number, val: buf.String(), pos: pos})
+				if isNumber(buf.String()) {
+					tokens = append(tokens, Token{typ: number, val: buf.String(), pos: pos})
+				} else {
+					_, err := strconv.ParseFloat(buf.String(), 64)
+					if err == nil {
+						tokens = append(tokens, Token{typ: number, val: buf.String(), pos: pos})
+					} else {
+						return nil
+					}
+				}
 				buf.Reset()
 			}
 			tokens = append(tokens, Token{typ: operator, val: string(char), pos: i})
-		} else if isNumber(string(char)) {
+		} else if isNumber(string(char)) || string(char) == "." {
 			buf.WriteRune(char)
 			if pos == 0 {
 				pos = i
 			}
 		} else if char == '(' {
 			if buf.Len() > 0 {
-				tokens = append(tokens, Token{typ: number, val: buf.String(), pos: pos})
+				if isNumber(buf.String()) {
+					tokens = append(tokens, Token{typ: number, val: buf.String(), pos: pos})
+				} else {
+					_, err := strconv.ParseFloat(buf.String(), 64)
+					if err == nil {
+						tokens = append(tokens, Token{typ: number, val: buf.String(), pos: pos})
+					} else {
+						return nil
+					}
+				}
 				buf.Reset()
 			}
 			tokens = append(tokens, Token{typ: lparen, val: string(char), pos: i})
 		} else if char == ')' {
 			if buf.Len() > 0 {
-				tokens = append(tokens, Token{typ: number, val: buf.String(), pos: pos})
+				if isNumber(buf.String()) {
+					tokens = append(tokens, Token{typ: number, val: buf.String(), pos: pos})
+				} else {
+					_, err := strconv.ParseFloat(buf.String(), 64)
+					if err == nil {
+						tokens = append(tokens, Token{typ: number, val: buf.String(), pos: pos})
+					} else {
+						return nil
+					}
+				}
 				buf.Reset()
 			}
 			tokens = append(tokens, Token{typ: rparen, val: string(char), pos: i})
@@ -117,7 +144,16 @@ func tokenize(expression string) []Token {
 		}
 	}
 	if buf.Len() > 0 {
-		tokens = append(tokens, Token{typ: number, val: buf.String(), pos: pos})
+		if isNumber(buf.String()) {
+			tokens = append(tokens, Token{typ: number, val: buf.String(), pos: pos})
+		} else {
+			_, err := strconv.ParseFloat(buf.String(), 64)
+			if err == nil {
+				tokens = append(tokens, Token{typ: number, val: buf.String(), pos: pos})
+			} else {
+				return nil
+			}
+		}
 	}
 	return tokens
 }
