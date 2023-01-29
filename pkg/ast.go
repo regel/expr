@@ -27,7 +27,7 @@ type Token struct {
 	pos int
 }
 
-func parseExpr(expression string) (*AST, int) {
+func parseExpr(expression string) (*AST, error) {
 	var tokens = tokenize(expression)
 	var outputStack []Token
 	var operatorStack []Token
@@ -55,13 +55,13 @@ func parseExpr(expression string) (*AST, int) {
 				operatorStack = operatorStack[:len(operatorStack)-1]
 			}
 			if !found {
-				return nil, token.pos
+				return nil, &parseError{at: token.pos, message: "unbalanced parenthesis"}
 			}
 		}
 	}
 	for len(operatorStack) > 0 {
 		if operatorStack[len(operatorStack)-1].typ == lparen || operatorStack[len(operatorStack)-1].typ == rparen {
-			return nil, tokens[len(tokens)-1].pos
+			return nil, &parseError{at: tokens[len(tokens)-1].pos, message: "unbalanced parenthesis"}
 		}
 		outputStack = append(outputStack, operatorStack[len(operatorStack)-1])
 		operatorStack = operatorStack[:len(operatorStack)-1]
@@ -79,7 +79,7 @@ func parseExpr(expression string) (*AST, int) {
 			astStack = append(astStack, &AST{token: token, left: left, right: right})
 		}
 	}
-	return astStack[0], 0
+	return astStack[0], nil
 }
 
 func tokenize(expression string) []Token {
@@ -189,4 +189,13 @@ func prettyPrint(node *AST, indent string) {
 	fmt.Printf("%s%s\n", indent, node.token.val)
 	prettyPrint(node.left, indent+"  ")
 	prettyPrint(node.right, indent+"  ")
+}
+
+type parseError struct {
+	at      int
+	message string
+}
+
+func (e *parseError) Error() string {
+	return e.message + " at position " + strconv.Itoa(e.at)
 }
