@@ -30,6 +30,14 @@ func TestEvaluate(t *testing.T) {
 	}
 }
 
+func TestParseVars(t *testing.T) {
+	ast, err := parseExpr("aa * (bb - dd) / c")
+	if err != nil {
+		t.Error("got error")
+	}
+	prettyPrint(ast, " ")
+}
+
 func TestParseExprErr(t *testing.T) {
 	tests := []struct {
 		expr     string
@@ -43,7 +51,6 @@ func TestParseExprErr(t *testing.T) {
 	}
 	for _, test := range tests {
 		ast, err := parseExpr(test.expr)
-
 		if err == nil {
 			t.Error("Expected error but got nil")
 		}

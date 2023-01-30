@@ -2,6 +2,7 @@ package pkg
 
 import (
 	"fmt"
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -13,6 +14,7 @@ const (
 	operator
 	lparen
 	rparen
+	name
 )
 
 type AST struct {
@@ -27,6 +29,14 @@ type Token struct {
 	pos int
 }
 
+var (
+	g_name_pattern *regexp.Regexp
+)
+
+func init() {
+	g_name_pattern = regexp.MustCompile(`[a-z]+`)
+}
+
 func parseExpr(expression string) (*AST, error) {
 	var tokens = tokenize(expression)
 	var outputStack []Token
@@ -34,6 +44,8 @@ func parseExpr(expression string) (*AST, error) {
 	for _, token := range tokens {
 		switch token.typ {
 		case number:
+			outputStack = append(outputStack, token)
+		case name:
 			outputStack = append(outputStack, token)
 		case operator:
 			for len(operatorStack) > 0 && precedence(operatorStack[len(operatorStack)-1].val) >= precedence(token.val) {
@@ -68,8 +80,7 @@ func parseExpr(expression string) (*AST, error) {
 	}
 	var astStack []*AST
 	for _, token := range outputStack {
-		if token.typ == number {
-			//	n, _ := strconv.Atoi(token.val)
+		if token.typ == number || token.typ == name {
 			astStack = append(astStack, &AST{token: token, left: nil, right: nil})
 		} else {
 			right := astStack[len(astStack)-1]
@@ -93,6 +104,8 @@ func tokenize(expression string) []Token {
 			if buf.Len() > 0 {
 				if isNumber(buf.String()) {
 					tokens = append(tokens, Token{typ: number, val: buf.String(), pos: pos})
+				} else if isName(buf.String()) {
+					tokens = append(tokens, Token{typ: name, val: buf.String(), pos: pos})
 				} else {
 					_, err := strconv.ParseFloat(buf.String(), 64)
 					if err == nil {
@@ -109,10 +122,17 @@ func tokenize(expression string) []Token {
 			if pos == 0 {
 				pos = i
 			}
+		} else if isAlpha(char) {
+			buf.WriteRune(char)
+			if pos == 0 {
+				pos = i
+			}
 		} else if char == '(' {
 			if buf.Len() > 0 {
 				if isNumber(buf.String()) {
 					tokens = append(tokens, Token{typ: number, val: buf.String(), pos: pos})
+				} else if isName(buf.String()) {
+					tokens = append(tokens, Token{typ: name, val: buf.String(), pos: pos})
 				} else {
 					_, err := strconv.ParseFloat(buf.String(), 64)
 					if err == nil {
@@ -128,6 +148,8 @@ func tokenize(expression string) []Token {
 			if buf.Len() > 0 {
 				if isNumber(buf.String()) {
 					tokens = append(tokens, Token{typ: number, val: buf.String(), pos: pos})
+				} else if isName(buf.String()) {
+					tokens = append(tokens, Token{typ: name, val: buf.String(), pos: pos})
 				} else {
 					_, err := strconv.ParseFloat(buf.String(), 64)
 					if err == nil {
@@ -146,6 +168,8 @@ func tokenize(expression string) []Token {
 	if buf.Len() > 0 {
 		if isNumber(buf.String()) {
 			tokens = append(tokens, Token{typ: number, val: buf.String(), pos: pos})
+		} else if isName(buf.String()) {
+			tokens = append(tokens, Token{typ: name, val: buf.String(), pos: pos})
 		} else {
 			_, err := strconv.ParseFloat(buf.String(), 64)
 			if err == nil {
@@ -161,6 +185,14 @@ func tokenize(expression string) []Token {
 func isNumber(token string) bool {
 	_, err := strconv.Atoi(token)
 	return err == nil
+}
+
+func isAlpha(c rune) bool {
+	return c >= 'a' && c <= 'z'
+}
+
+func isName(token string) bool {
+	return g_name_pattern.MatchString(token)
 }
 
 func isOperator(token string) bool {
