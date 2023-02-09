@@ -6,6 +6,9 @@ import (
 )
 
 func TestEvaluate(t *testing.T) {
+	vars := &Env{
+		"aa": 5.0,
+	}
 	tests := []struct {
 		expr     string
 		expected float64
@@ -13,6 +16,7 @@ func TestEvaluate(t *testing.T) {
 		{"2 + 3", 5},
 		{"2 - 3", -1},
 		{"2 * 3", 6},
+		{"2 * aa", 10},
 		{"8 / 4", 2},
 		{"2 + 3 * 4", 14},
 		{"2 * 3 + 4 * 5", 26},
@@ -23,11 +27,58 @@ func TestEvaluate(t *testing.T) {
 	for _, test := range tests {
 		ast, _ := parseExpr(test.expr)
 		prettyPrint(ast, " ")
-		result := evaluate(ast)
+		result := evaluate(ast, vars)
 		if math.Abs(result-test.expected) > 1e-9 {
 			t.Errorf("For expression %s, expected %f but got %f", test.expr, test.expected, result)
 		}
 	}
+}
+
+func TestEvaluateRecover(t *testing.T) {
+	_, err := Evaluate("aa * 3", nil)
+	expected := &evaluateError{message: "Cannot evaluate expression. Key 'aa' not found in environment"}
+	if err == nil {
+		t.Error("Expected error but got nil")
+	}
+	if err.Error() != expected.Error() {
+		t.Errorf("Expected error '%s' but got '%s'", expected, err)
+	}
+}
+
+func TestEvaluateNoEnv(t *testing.T) {
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf("The code did not panic")
+		}
+	}()
+	ast, _ := parseExpr("aa * 3")
+	evaluate(ast, nil)
+}
+
+func TestEvaluateNoKeyInEnv(t *testing.T) {
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf("The code did not panic")
+		}
+	}()
+	vars := &Env{
+		"aa": 1.0,
+	}
+	ast, _ := parseExpr("bb * 3")
+	evaluate(ast, vars)
+}
+
+func TestEvaluateNilValueInEnv(t *testing.T) {
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf("The code did not panic")
+		}
+	}()
+	vars := &Env{
+		"aa": nil,
+	}
+	ast, _ := parseExpr("aa * 3")
+	evaluate(ast, vars)
 }
 
 func TestParseVars(t *testing.T) {
