@@ -62,7 +62,22 @@ func evaluate(node *AST, env *Env) float64 {
 		if _, ok := value.(float64); ok {
 			return value.(float64)
 		}
-		errorString := fmt.Sprintf("Unsupported data type '%v' for token '%v'", node.token.typ, node.token.val)
+		errorString := fmt.Sprintf("Unsupported data type '%v' for token '%v'", value, node.token.val)
+		panic(errorString)
+	} else if node.token.typ == slice {
+		if env == nil {
+			errorString := fmt.Sprintf("Cannot evaluate expression. Key '%s' not found in environment", node.token.val)
+			panic(errorString)
+		}
+		value, ok := (*env)[node.token.varName]
+		if !ok {
+			errorString := fmt.Sprintf("Cannot evaluate expression. Key '%s' not found in environment", node.token.varName)
+			panic(errorString)
+		}
+		if _, ok := value.([]float64); ok {
+			return value.([]float64)[node.token.varIdx]
+		}
+		errorString := fmt.Sprintf("Unsupported data type '%v' for token '%v'", value, node.token.varName)
 		panic(errorString)
 	}
 

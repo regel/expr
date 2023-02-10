@@ -8,6 +8,7 @@ import (
 func TestEvaluate(t *testing.T) {
 	vars := &Env{
 		"aa": 5.0,
+		"bb": []float64{1.0, 5.0, 2.0},
 	}
 	tests := []struct {
 		expr     string
@@ -17,6 +18,7 @@ func TestEvaluate(t *testing.T) {
 		{"2 - 3", -1},
 		{"2 * 3", 6},
 		{"2 * aa", 10},
+		{"2 * bb[1]", 10},
 		{"8 / 4", 2},
 		{"2 + 3 * 4", 14},
 		{"2 * 3 + 4 * 5", 26},
@@ -82,7 +84,7 @@ func TestEvaluateNilValueInEnv(t *testing.T) {
 }
 
 func TestParseVars(t *testing.T) {
-	ast, err := parseExpr("aa * (bb - dd) / c")
+	ast, err := parseExpr("aa[1] * (bb - dd) / c")
 	if err != nil {
 		t.Error("got error")
 	}

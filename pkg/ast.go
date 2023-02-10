@@ -15,6 +15,7 @@ const (
 	lparen
 	rparen
 	name
+	slice
 )
 
 type AST struct {
@@ -24,9 +25,11 @@ type AST struct {
 }
 
 type Token struct {
-	typ nodeType
-	val string
-	pos int
+	typ     nodeType
+	val     string
+	pos     int
+	varName string
+	varIdx  int
 }
 
 var (
@@ -34,7 +37,7 @@ var (
 )
 
 func init() {
-	g_name_pattern = regexp.MustCompile(`[a-z]+`)
+	g_name_pattern = regexp.MustCompile(`\w+(\[\d+\])?`)
 }
 
 func parseExpr(expression string) (*AST, error) {
@@ -46,7 +49,21 @@ func parseExpr(expression string) (*AST, error) {
 		case number:
 			outputStack = append(outputStack, token)
 		case name:
-			outputStack = append(outputStack, token)
+			if strings.Contains(token.val, "[") {
+				i := strings.Index(token.val, "[")
+				j := strings.Index(token.val, "]")
+				if j == -1 {
+					return nil, &parseError{at: token.pos, message: "Unbalanced expression: missing ']'"}
+				}
+				if idx, err := strconv.Atoi(token.val[i+1 : j]); err == nil {
+					outputStack = append(outputStack, Token{typ: slice, varName: token.val[:i], varIdx: idx})
+					continue
+				}
+				errorString := fmt.Sprintf("Invalid slice index '%s'", token.val[i+1:j])
+				return nil, &parseError{at: token.pos, message: errorString}
+			} else {
+				outputStack = append(outputStack, token)
+			}
 		case operator:
 			for len(operatorStack) > 0 && precedence(operatorStack[len(operatorStack)-1].val) >= precedence(token.val) {
 				outputStack = append(outputStack, operatorStack[len(operatorStack)-1])
@@ -75,12 +92,15 @@ func parseExpr(expression string) (*AST, error) {
 		if operatorStack[len(operatorStack)-1].typ == lparen || operatorStack[len(operatorStack)-1].typ == rparen {
 			return nil, &parseError{at: tokens[len(tokens)-1].pos, message: "unbalanced parenthesis"}
 		}
+		if len(outputStack) < 2 {
+			return nil, &parseError{at: 0, message: "Unbalanced expression: not enough operands"}
+		}
 		outputStack = append(outputStack, operatorStack[len(operatorStack)-1])
 		operatorStack = operatorStack[:len(operatorStack)-1]
 	}
 	var astStack []*AST
 	for _, token := range outputStack {
-		if token.typ == number || token.typ == name {
+		if token.typ == number || token.typ == name || token.typ == slice {
 			astStack = append(astStack, &AST{token: token, left: nil, right: nil})
 		} else {
 			right := astStack[len(astStack)-1]
@@ -138,7 +158,8 @@ func tokenize(expression string) []Token {
 					if err == nil {
 						tokens = append(tokens, Token{typ: number, val: buf.String(), pos: pos})
 					} else {
-						return nil
+						errorString := fmt.Sprintf("found unexpected char '%s' at index %d", string(char), i)
+						panic(errorString)
 					}
 				}
 				buf.Reset()
@@ -155,14 +176,16 @@ func tokenize(expression string) []Token {
 					if err == nil {
 						tokens = append(tokens, Token{typ: number, val: buf.String(), pos: pos})
 					} else {
-						return nil
+						errorString := fmt.Sprintf("found unexpected char '%s' at index %d", string(char), i)
+						panic(errorString)
 					}
 				}
 				buf.Reset()
 			}
 			tokens = append(tokens, Token{typ: rparen, val: string(char), pos: i})
 		} else {
-			return nil
+			errorString := fmt.Sprintf("found unexpected char '%s' at index %d", string(char), i)
+			panic(errorString)
 		}
 	}
 	if buf.Len() > 0 {
@@ -175,7 +198,8 @@ func tokenize(expression string) []Token {
 			if err == nil {
 				tokens = append(tokens, Token{typ: number, val: buf.String(), pos: pos})
 			} else {
-				return nil
+				errorString := fmt.Sprintf("found unexpected trailing chars")
+				panic(errorString)
 			}
 		}
 	}
@@ -183,12 +207,12 @@ func tokenize(expression string) []Token {
 }
 
 func isNumber(token string) bool {
-	_, err := strconv.Atoi(token)
+	_, err := strconv.ParseFloat(token, 64)
 	return err == nil
 }
 
 func isAlpha(c rune) bool {
-	return c >= 'a' && c <= 'z'
+	return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c == '[' || c == ']') || (c >= '0' && c <= '9')
 }
 
 func isName(token string) bool {
@@ -215,6 +239,9 @@ func prettyPrint(node *AST, indent string) {
 	}
 	if node.token.typ == number {
 		fmt.Printf("%s%s\n", indent, node.token.val)
+		return
+	} else if node.token.typ == slice {
+		fmt.Printf("%s%s[%d]\n", indent, node.token.varName, node.token.varIdx)
 		return
 	}
 
