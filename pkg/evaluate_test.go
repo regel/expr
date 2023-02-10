@@ -47,6 +47,17 @@ func TestEvaluateRecover(t *testing.T) {
 	}
 }
 
+func TestEvaluateMissingOperand(t *testing.T) {
+	_, err := Evaluate("aa * ", nil)
+	expected := &evaluateError{message: "Unbalanced expression: not enough operands at position 0"}
+	if err == nil {
+		t.Error("Expected error but got nil")
+	}
+	if err.Error() != expected.Error() {
+		t.Errorf("Expected error '%s' but got '%s'", expected, err)
+	}
+}
+
 func TestEvaluateNoEnv(t *testing.T) {
 	defer func() {
 		if r := recover(); r == nil {
