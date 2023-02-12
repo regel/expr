@@ -1,4 +1,4 @@
-package pkg
+package ast
 
 import (
 	"fmt"
@@ -40,7 +40,7 @@ func init() {
 	g_name_pattern = regexp.MustCompile(`\w+(\[\d+\])?`)
 }
 
-func parseExpr(expression string) (*AST, error) {
+func ParseExpr(expression string) (*AST, error) {
 	var tokens = tokenize(expression)
 	var outputStack []Token
 	var operatorStack []Token
@@ -53,14 +53,14 @@ func parseExpr(expression string) (*AST, error) {
 				i := strings.Index(token.val, "[")
 				j := strings.Index(token.val, "]")
 				if j == -1 {
-					return nil, &parseError{at: token.pos, message: "Unbalanced expression: missing ']'"}
+					return nil, &ParseError{at: token.pos, message: "Unbalanced expression: missing ']'"}
 				}
 				if idx, err := strconv.Atoi(token.val[i+1 : j]); err == nil {
 					outputStack = append(outputStack, Token{typ: slice, varName: token.val[:i], varIdx: idx})
 					continue
 				}
 				errorString := fmt.Sprintf("Invalid slice index '%s'", token.val[i+1:j])
-				return nil, &parseError{at: token.pos, message: errorString}
+				return nil, &ParseError{at: token.pos, message: errorString}
 			} else {
 				outputStack = append(outputStack, token)
 			}
@@ -84,16 +84,16 @@ func parseExpr(expression string) (*AST, error) {
 				operatorStack = operatorStack[:len(operatorStack)-1]
 			}
 			if !found {
-				return nil, &parseError{at: token.pos, message: "unbalanced parenthesis"}
+				return nil, &ParseError{at: token.pos, message: "unbalanced parenthesis"}
 			}
 		}
 	}
 	for len(operatorStack) > 0 {
 		if operatorStack[len(operatorStack)-1].typ == lparen || operatorStack[len(operatorStack)-1].typ == rparen {
-			return nil, &parseError{at: tokens[len(tokens)-1].pos, message: "unbalanced parenthesis"}
+			return nil, &ParseError{at: tokens[len(tokens)-1].pos, message: "unbalanced parenthesis"}
 		}
 		if len(outputStack) < 2 {
-			return nil, &parseError{at: 0, message: "Unbalanced expression: not enough operands"}
+			return nil, &ParseError{at: 0, message: "Unbalanced expression: not enough operands"}
 		}
 		outputStack = append(outputStack, operatorStack[len(operatorStack)-1])
 		operatorStack = operatorStack[:len(operatorStack)-1]
@@ -198,7 +198,7 @@ func tokenize(expression string) []Token {
 			if err == nil {
 				tokens = append(tokens, Token{typ: number, val: buf.String(), pos: pos})
 			} else {
-				errorString := fmt.Sprintf("found unexpected trailing chars")
+				errorString := "found unexpected trailing chars"
 				panic(errorString)
 			}
 		}
@@ -233,7 +233,7 @@ func precedence(token string) int {
 	return 0
 }
 
-func prettyPrint(node *AST, indent string) {
+func PrettyPrint(node *AST, indent string) {
 	if node == nil {
 		return
 	}
@@ -246,15 +246,15 @@ func prettyPrint(node *AST, indent string) {
 	}
 
 	fmt.Printf("%s%s\n", indent, node.token.val)
-	prettyPrint(node.left, indent+"  ")
-	prettyPrint(node.right, indent+"  ")
+	PrettyPrint(node.left, indent+"  ")
+	PrettyPrint(node.right, indent+"  ")
 }
 
-type parseError struct {
+type ParseError struct {
 	at      int
 	message string
 }
 
-func (e *parseError) Error() string {
+func (e *ParseError) Error() string {
 	return e.message + " at position " + strconv.Itoa(e.at)
 }

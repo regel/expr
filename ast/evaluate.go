@@ -1,47 +1,11 @@
-package pkg
+package ast
 
 import (
-	"errors"
 	"fmt"
 	"strconv"
 )
 
-type Env map[string]any
-
-type evaluateError struct {
-	message string
-}
-
-func (e *evaluateError) Error() string {
-	return e.message
-}
-
-func Evaluate(e string, env *Env) (v float64, err error) {
-	err = nil
-	v = 0
-	defer func() {
-		if r := recover(); r != nil {
-			switch x := r.(type) {
-			case string:
-				err = &evaluateError{
-					message: x,
-				}
-			case error:
-				err = x
-			default:
-				err = errors.New("unknown panic")
-			}
-		}
-	}()
-	node, err := parseExpr(e)
-	if err != nil {
-		return v, err
-	}
-	v = evaluate(node, env)
-	return v, err
-}
-
-func evaluate(node *AST, env *Env) float64 {
+func Evaluate(node *AST, env *Env) interface{} {
 	if node == nil {
 		errorString := "Cannot evaluate expression: encountered nil token"
 		panic(errorString)
@@ -62,7 +26,16 @@ func evaluate(node *AST, env *Env) float64 {
 		if _, ok := value.(float64); ok {
 			return value.(float64)
 		}
-		errorString := fmt.Sprintf("Unsupported data type '%v' for token '%v'", value, node.token.val)
+		if _, ok := value.([]float64); ok {
+			return value.([]float64)
+		}
+		if _, ok := value.(float32); ok {
+			return value.(float32)
+		}
+		if _, ok := value.([]float32); ok {
+			return value.([]float32)
+		}
+		errorString := fmt.Sprintf("Unsupported data type '%T' for token '%v'", value, node.token.val)
 		panic(errorString)
 	} else if node.token.typ == slice {
 		if env == nil {
@@ -77,22 +50,25 @@ func evaluate(node *AST, env *Env) float64 {
 		if _, ok := value.([]float64); ok {
 			return value.([]float64)[node.token.varIdx]
 		}
-		errorString := fmt.Sprintf("Unsupported data type '%v' for token '%v'", value, node.token.varName)
+		if _, ok := value.([]float32); ok {
+			return value.([]float32)[node.token.varIdx]
+		}
+		errorString := fmt.Sprintf("Unsupported data type '%T' for token '%v'", value, node.token.varName)
 		panic(errorString)
 	}
 
-	left := evaluate(node.left, env)
-	right := evaluate(node.right, env)
+	left := Evaluate(node.left, env)
+	right := Evaluate(node.right, env)
 
 	switch node.token.val {
 	case "+":
-		return left + right
+		return add(left, right)
 	case "-":
-		return left - right
+		return subtract(left, right)
 	case "*":
-		return left * right
+		return multiply(left, right)
 	case "/":
-		return left / right
+		return divide(left, right)
 	}
 	return 0
 }
