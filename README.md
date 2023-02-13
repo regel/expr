@@ -1,5 +1,10 @@
 # Expr 
 
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/license/mit-0/)
+[![Go Report Card](https://goreportcard.com/badge/github.com/regel/expr)](https://goreportcard.com/report/github.com/regel/expr)
+[![Build](https://github.com/regel/expr/actions/workflows/build.yaml/badge.svg)](https://github.com/regel/expr/actions/workflows/build.yaml)
+[![codecov](https://codecov.io/gh/regel/expr/branch/main/graph/badge.svg)](https://codecov.io/gh/regel/expr)
+
 **Expr** package provides an engine that can compile and evaluate math expressions. 
 An expression is a one-liner that returns a value (mostly, but not limited to, float64 and []float64).
 It is designed for simplicity, speed and safety.
