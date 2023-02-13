@@ -1,3 +1,3 @@
 package ast
 
-type Env map[string]any
+type Env map[string]interface{}
