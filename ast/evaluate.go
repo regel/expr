@@ -7,8 +7,7 @@ import (
 
 func Evaluate(node *AST, env *Env) interface{} {
 	if node == nil {
-		errorString := "Cannot evaluate expression: encountered nil token"
-		panic(errorString)
+		return nil
 	}
 	if node.token.typ == number {
 		value, _ := strconv.ParseFloat(node.token.val, 64)
@@ -69,6 +68,28 @@ func Evaluate(node *AST, env *Env) interface{} {
 		return multiply(left, right)
 	case "/":
 		return divide(left, right)
+	case ",":
+		return concat(left, right)
+	case "abs":
+		return abs(right)
+	case "add":
+		args := right.(Args)
+		return add(args[0], args[1])
+	case "sub":
+		args := right.(Args)
+		return subtract(args[0], args[1])
+	case "mul":
+		args := right.(Args)
+		return multiply(args[0], args[1])
+	case "div":
+		args := right.(Args)
+		return divide(args[0], args[1])
+	case "min":
+		args := right.(Args)
+		return min(args[0], args[1])
+	case "max":
+		args := right.(Args)
+		return max(args[0], args[1])
 	}
 	return 0
 }

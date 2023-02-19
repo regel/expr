@@ -2,6 +2,7 @@ package ast
 
 import (
 	"math"
+	"os"
 	"testing"
 )
 
@@ -28,7 +29,7 @@ func TestEvaluate(t *testing.T) {
 
 	for _, test := range tests {
 		ast, _ := ParseExpr(test.expr)
-		PrettyPrint(ast, " ")
+		PrettyPrint(os.Stdout, ast, " ")
 		result := Evaluate(ast, vars)
 		if _, ok := result.(float64); !ok {
 			t.Errorf("output value is not float64")
@@ -90,6 +91,82 @@ func TestEvaluateVectorOps(t *testing.T) {
 	}
 }
 
+func TestEvaluateAbs(t *testing.T) {
+	ast, _ := ParseExpr(`abs(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{1.0, 3.0, 2.0}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateAdd(t *testing.T) {
+	ast, _ := ParseExpr(`add(X, Y)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+		"Y": []float64{0.0, -1.0, 1.0},
+	}
+	expected := []float64{-1.0, 2.0, -1.0}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateSub(t *testing.T) {
+	ast, _ := ParseExpr(`sub(X, Y)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+		"Y": []float64{0.0, -1.0, 1.0},
+	}
+	expected := []float64{-1.0, 4.0, -3.0}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateMul(t *testing.T) {
+	ast, _ := ParseExpr(`mul(X, Y)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+		"Y": []float64{0.0, -1.0, 1.0},
+	}
+	expected := []float64{0.0, -3.0, -2.0}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateDiv(t *testing.T) {
+	ast, _ := ParseExpr(`div(X, Y)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+		"Y": []float64{1.0, -2.0, 2.0},
+	}
+	expected := []float64{-1.0, -1.5, -1.0}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateMin(t *testing.T) {
+	ast, _ := ParseExpr(`min(X, Y)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+		"Y": []float64{0.0, -1.0, 1.0},
+	}
+	expected := []float64{-1.0, -1.0, -2.0}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateMax(t *testing.T) {
+	ast, _ := ParseExpr(`max(X, Y)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+		"Y": []float64{0.0, -1.0, 1.0},
+	}
+	expected := []float64{0.0, 3.0, 1.0}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
 func TestEvaluateNoEnv(t *testing.T) {
 	defer func() {
 		if r := recover(); r == nil {
@@ -145,7 +222,7 @@ func TestParseVars(t *testing.T) {
 	if err != nil {
 		t.Error("got error")
 	}
-	PrettyPrint(ast, " ")
+	PrettyPrint(os.Stdout, ast, " ")
 }
 
 func TestParseExprErr(t *testing.T) {

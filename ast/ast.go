@@ -2,6 +2,7 @@ package ast
 
 import (
 	"fmt"
+	"io"
 	"regexp"
 	"strconv"
 	"strings"
@@ -16,6 +17,7 @@ const (
 	rparen
 	name
 	slice
+	function
 )
 
 type AST struct {
@@ -70,6 +72,8 @@ func ParseExpr(expression string) (*AST, error) {
 				operatorStack = operatorStack[:len(operatorStack)-1]
 			}
 			operatorStack = append(operatorStack, token)
+		case function:
+			operatorStack = append(operatorStack, token)
 		case lparen:
 			operatorStack = append(operatorStack, token)
 		case rparen:
@@ -92,9 +96,6 @@ func ParseExpr(expression string) (*AST, error) {
 		if operatorStack[len(operatorStack)-1].typ == lparen || operatorStack[len(operatorStack)-1].typ == rparen {
 			return nil, &ParseError{at: tokens[len(tokens)-1].pos, message: "unbalanced parenthesis"}
 		}
-		if len(outputStack) < 2 {
-			return nil, &ParseError{at: 0, message: "Unbalanced expression: not enough operands"}
-		}
 		outputStack = append(outputStack, operatorStack[len(operatorStack)-1])
 		operatorStack = operatorStack[:len(operatorStack)-1]
 	}
@@ -102,6 +103,10 @@ func ParseExpr(expression string) (*AST, error) {
 	for _, token := range outputStack {
 		if token.typ == number || token.typ == name || token.typ == slice {
 			astStack = append(astStack, &AST{token: token, left: nil, right: nil})
+		} else if token.typ == function {
+			right := astStack[len(astStack)-1]
+			astStack = astStack[:len(astStack)-1]
+			astStack = append(astStack, &AST{token: token, left: nil, right: right})
 		} else {
 			right := astStack[len(astStack)-1]
 			astStack = astStack[:len(astStack)-1]
@@ -124,6 +129,8 @@ func tokenize(expression string) []Token {
 			if buf.Len() > 0 {
 				if isNumber(buf.String()) {
 					tokens = append(tokens, Token{typ: number, val: buf.String(), pos: pos})
+				} else if isFunction(buf.String()) {
+					tokens = append(tokens, Token{typ: function, val: buf.String(), pos: pos})
 				} else if isName(buf.String()) {
 					tokens = append(tokens, Token{typ: name, val: buf.String(), pos: pos})
 				} else {
@@ -151,6 +158,8 @@ func tokenize(expression string) []Token {
 			if buf.Len() > 0 {
 				if isNumber(buf.String()) {
 					tokens = append(tokens, Token{typ: number, val: buf.String(), pos: pos})
+				} else if isFunction(buf.String()) {
+					tokens = append(tokens, Token{typ: function, val: buf.String(), pos: pos})
 				} else if isName(buf.String()) {
 					tokens = append(tokens, Token{typ: name, val: buf.String(), pos: pos})
 				} else {
@@ -191,6 +200,8 @@ func tokenize(expression string) []Token {
 	if buf.Len() > 0 {
 		if isNumber(buf.String()) {
 			tokens = append(tokens, Token{typ: number, val: buf.String(), pos: pos})
+		} else if isFunction(buf.String()) {
+			tokens = append(tokens, Token{typ: function, val: buf.String(), pos: pos})
 		} else if isName(buf.String()) {
 			tokens = append(tokens, Token{typ: name, val: buf.String(), pos: pos})
 		} else {
@@ -219,35 +230,39 @@ func isName(token string) bool {
 	return g_name_pattern.MatchString(token)
 }
 
+func isFunction(token string) bool {
+	return token == "add" || token == "sub" || token == "mul" || token == "div" || token == "min" || token == "max" || token == "abs"
+}
+
 func isOperator(token string) bool {
-	return token == "+" || token == "-" || token == "*" || token == "/"
+	return token == "+" || token == "-" || token == "*" || token == "/" || token == ","
 }
 
 func precedence(token string) int {
 	switch token {
 	case "+", "-":
 		return 1
-	case "*", "/":
+	case "*", "/", ",":
 		return 2
 	}
 	return 0
 }
 
-func PrettyPrint(node *AST, indent string) {
+func PrettyPrint(w io.Writer, node *AST, indent string) {
 	if node == nil {
 		return
 	}
 	if node.token.typ == number {
-		fmt.Printf("%s%s\n", indent, node.token.val)
+		fmt.Fprintf(w, "%s%s\n", indent, node.token.val)
 		return
 	} else if node.token.typ == slice {
-		fmt.Printf("%s%s[%d]\n", indent, node.token.varName, node.token.varIdx)
+		fmt.Fprintf(w, "%s%s[%d]\n", indent, node.token.varName, node.token.varIdx)
 		return
 	}
 
-	fmt.Printf("%s%s\n", indent, node.token.val)
-	PrettyPrint(node.left, indent+"  ")
-	PrettyPrint(node.right, indent+"  ")
+	fmt.Fprintf(w, "%s%s\n", indent, node.token.val)
+	PrettyPrint(w, node.left, indent+"  ")
+	PrettyPrint(w, node.right, indent+"  ")
 }
 
 type ParseError struct {

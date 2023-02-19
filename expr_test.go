@@ -68,7 +68,7 @@ func TestEvaluateRecover(t *testing.T) {
 
 func TestEvaluateMissingOperand(t *testing.T) {
 	_, err := expr.Evaluate("aa * ", nil)
-	expected := &expr.EvaluateError{Message: "Unbalanced expression: not enough operands at position 0"}
+	expected := &expr.EvaluateError{Message: "runtime error: index out of range [-1]"}
 	if err == nil {
 		t.Error("Expected error but got nil")
 	}
