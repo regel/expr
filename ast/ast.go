@@ -87,6 +87,12 @@ func ParseExpr(expression string) (*AST, error) {
 				outputStack = append(outputStack, operatorStack[len(operatorStack)-1])
 				operatorStack = operatorStack[:len(operatorStack)-1]
 			}
+			if len(operatorStack) > 0 {
+				if operatorStack[len(operatorStack)-1].typ == function {
+					outputStack = append(outputStack, operatorStack[len(operatorStack)-1])
+					operatorStack = operatorStack[:len(operatorStack)-1]
+				}
+			}
 			if !found {
 				return nil, &ParseError{at: token.pos, message: "unbalanced parenthesis"}
 			}
