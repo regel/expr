@@ -67,3 +67,28 @@ func TestParseAddpAddFunc(t *testing.T) {
 	actual := buf.String()
 	assert.Equal(t, expected, actual)
 }
+
+func TestParseOperatorPrecedence(t *testing.T) {
+	var buf bytes.Buffer
+	expected := `-
+  *
+    5
+    add
+      ,
+        aa
+        abs
+          bb
+  /
+    d
+    e
+`
+	code := `5 * add(aa, abs(bb)) - d / e`
+	ast, err := ParseExpr(code)
+	require.NoError(t, err, "ParseExpr returned an error")
+	if err != nil {
+		t.Error("got error")
+	}
+	PrettyPrint(&buf, ast, "")
+	actual := buf.String()
+	assert.Equal(t, expected, actual)
+}
