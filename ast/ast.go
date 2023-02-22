@@ -237,7 +237,52 @@ func isName(token string) bool {
 }
 
 func isFunction(token string) bool {
-	return token == "add" || token == "sub" || token == "mul" || token == "div" || token == "min" || token == "max" || token == "abs"
+	functions := map[string]bool{
+		"add":         true,
+		"sub":         true,
+		"mul":         true,
+		"div":         true,
+		"min":         true,
+		"max":         true,
+		"abs":         true,
+		"acos":        true,
+		"acosh":       true,
+		"asin":        true,
+		"asinh":       true,
+		"atan":        true,
+		"atanh":       true,
+		"cbrt":        true,
+		"ceil":        true,
+		"cos":         true,
+		"cosh":        true,
+		"erf":         true,
+		"erfc":        true,
+		"erfcinv":     true,
+		"erfinv":      true,
+		"exp":         true,
+		"exp2":        true,
+		"expm1":       true,
+		"floor":       true,
+		"gamma":       true,
+		"j0":          true,
+		"j1":          true,
+		"log":         true,
+		"log10":       true,
+		"log1p":       true,
+		"log2":        true,
+		"logb":        true,
+		"round":       true,
+		"roundToEven": true,
+		"sin":         true,
+		"sinh":        true,
+		"sqrt":        true,
+		"tan":         true,
+		"tanh":        true,
+		"trunc":       true,
+		"y0":          true,
+		"y1":          true,
+	}
+	return functions[token]
 }
 
 func isOperator(token string) bool {

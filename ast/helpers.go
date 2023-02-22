@@ -4,6 +4,7 @@ package ast
 
 import (
 	"fmt"
+	"math"
 )
 
 func add(a, b interface{}) interface{} {
@@ -528,6 +529,1086 @@ func absFloat64(a []float64) interface{} {
 	return out
 }
 
+func acos(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return AcosFloat32(x)
+	case []float32:
+		return acosFloat32(x)
+	case float64:
+		return AcosFloat64(x)
+	case []float64:
+		return acosFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Acos", a))
+}
+
+func acosFloat32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = AcosFloat32(a[j])
+	}
+	return out
+}
+
+func acosFloat64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = AcosFloat64(a[j])
+	}
+	return out
+}
+
+func acosh(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return AcoshFloat32(x)
+	case []float32:
+		return acoshFloat32(x)
+	case float64:
+		return AcoshFloat64(x)
+	case []float64:
+		return acoshFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Acosh", a))
+}
+
+func acoshFloat32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = AcoshFloat32(a[j])
+	}
+	return out
+}
+
+func acoshFloat64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = AcoshFloat64(a[j])
+	}
+	return out
+}
+
+func asin(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return AsinFloat32(x)
+	case []float32:
+		return asinFloat32(x)
+	case float64:
+		return AsinFloat64(x)
+	case []float64:
+		return asinFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Asin", a))
+}
+
+func asinFloat32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = AsinFloat32(a[j])
+	}
+	return out
+}
+
+func asinFloat64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = AsinFloat64(a[j])
+	}
+	return out
+}
+
+func asinh(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return AsinhFloat32(x)
+	case []float32:
+		return asinhFloat32(x)
+	case float64:
+		return AsinhFloat64(x)
+	case []float64:
+		return asinhFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Asinh", a))
+}
+
+func asinhFloat32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = AsinhFloat32(a[j])
+	}
+	return out
+}
+
+func asinhFloat64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = AsinhFloat64(a[j])
+	}
+	return out
+}
+
+func atan(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return AtanFloat32(x)
+	case []float32:
+		return atanFloat32(x)
+	case float64:
+		return AtanFloat64(x)
+	case []float64:
+		return atanFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Atan", a))
+}
+
+func atanFloat32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = AtanFloat32(a[j])
+	}
+	return out
+}
+
+func atanFloat64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = AtanFloat64(a[j])
+	}
+	return out
+}
+
+func atanh(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return AtanhFloat32(x)
+	case []float32:
+		return atanhFloat32(x)
+	case float64:
+		return AtanhFloat64(x)
+	case []float64:
+		return atanhFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Atanh", a))
+}
+
+func atanhFloat32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = AtanhFloat32(a[j])
+	}
+	return out
+}
+
+func atanhFloat64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = AtanhFloat64(a[j])
+	}
+	return out
+}
+
+func cbrt(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return CbrtFloat32(x)
+	case []float32:
+		return cbrtFloat32(x)
+	case float64:
+		return CbrtFloat64(x)
+	case []float64:
+		return cbrtFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Cbrt", a))
+}
+
+func cbrtFloat32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = CbrtFloat32(a[j])
+	}
+	return out
+}
+
+func cbrtFloat64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = CbrtFloat64(a[j])
+	}
+	return out
+}
+
+func ceil(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return CeilFloat32(x)
+	case []float32:
+		return ceilFloat32(x)
+	case float64:
+		return CeilFloat64(x)
+	case []float64:
+		return ceilFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Ceil", a))
+}
+
+func ceilFloat32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = CeilFloat32(a[j])
+	}
+	return out
+}
+
+func ceilFloat64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = CeilFloat64(a[j])
+	}
+	return out
+}
+
+func cos(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return CosFloat32(x)
+	case []float32:
+		return cosFloat32(x)
+	case float64:
+		return CosFloat64(x)
+	case []float64:
+		return cosFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Cos", a))
+}
+
+func cosFloat32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = CosFloat32(a[j])
+	}
+	return out
+}
+
+func cosFloat64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = CosFloat64(a[j])
+	}
+	return out
+}
+
+func cosh(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return CoshFloat32(x)
+	case []float32:
+		return coshFloat32(x)
+	case float64:
+		return CoshFloat64(x)
+	case []float64:
+		return coshFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Cosh", a))
+}
+
+func coshFloat32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = CoshFloat32(a[j])
+	}
+	return out
+}
+
+func coshFloat64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = CoshFloat64(a[j])
+	}
+	return out
+}
+
+func erf(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return ErfFloat32(x)
+	case []float32:
+		return erfFloat32(x)
+	case float64:
+		return ErfFloat64(x)
+	case []float64:
+		return erfFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Erf", a))
+}
+
+func erfFloat32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = ErfFloat32(a[j])
+	}
+	return out
+}
+
+func erfFloat64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = ErfFloat64(a[j])
+	}
+	return out
+}
+
+func erfc(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return ErfcFloat32(x)
+	case []float32:
+		return erfcFloat32(x)
+	case float64:
+		return ErfcFloat64(x)
+	case []float64:
+		return erfcFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Erfc", a))
+}
+
+func erfcFloat32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = ErfcFloat32(a[j])
+	}
+	return out
+}
+
+func erfcFloat64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = ErfcFloat64(a[j])
+	}
+	return out
+}
+
+func erfcinv(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return ErfcinvFloat32(x)
+	case []float32:
+		return erfcinvFloat32(x)
+	case float64:
+		return ErfcinvFloat64(x)
+	case []float64:
+		return erfcinvFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Erfcinv", a))
+}
+
+func erfcinvFloat32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = ErfcinvFloat32(a[j])
+	}
+	return out
+}
+
+func erfcinvFloat64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = ErfcinvFloat64(a[j])
+	}
+	return out
+}
+
+func erfinv(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return ErfinvFloat32(x)
+	case []float32:
+		return erfinvFloat32(x)
+	case float64:
+		return ErfinvFloat64(x)
+	case []float64:
+		return erfinvFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Erfinv", a))
+}
+
+func erfinvFloat32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = ErfinvFloat32(a[j])
+	}
+	return out
+}
+
+func erfinvFloat64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = ErfinvFloat64(a[j])
+	}
+	return out
+}
+
+func exp(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return ExpFloat32(x)
+	case []float32:
+		return expFloat32(x)
+	case float64:
+		return ExpFloat64(x)
+	case []float64:
+		return expFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Exp", a))
+}
+
+func expFloat32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = ExpFloat32(a[j])
+	}
+	return out
+}
+
+func expFloat64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = ExpFloat64(a[j])
+	}
+	return out
+}
+
+func exp2(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return Exp2Float32(x)
+	case []float32:
+		return exp2Float32(x)
+	case float64:
+		return Exp2Float64(x)
+	case []float64:
+		return exp2Float64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Exp2", a))
+}
+
+func exp2Float32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = Exp2Float32(a[j])
+	}
+	return out
+}
+
+func exp2Float64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = Exp2Float64(a[j])
+	}
+	return out
+}
+
+func expm1(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return Expm1Float32(x)
+	case []float32:
+		return expm1Float32(x)
+	case float64:
+		return Expm1Float64(x)
+	case []float64:
+		return expm1Float64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Expm1", a))
+}
+
+func expm1Float32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = Expm1Float32(a[j])
+	}
+	return out
+}
+
+func expm1Float64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = Expm1Float64(a[j])
+	}
+	return out
+}
+
+func floor(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return FloorFloat32(x)
+	case []float32:
+		return floorFloat32(x)
+	case float64:
+		return FloorFloat64(x)
+	case []float64:
+		return floorFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Floor", a))
+}
+
+func floorFloat32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = FloorFloat32(a[j])
+	}
+	return out
+}
+
+func floorFloat64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = FloorFloat64(a[j])
+	}
+	return out
+}
+
+func gamma(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return GammaFloat32(x)
+	case []float32:
+		return gammaFloat32(x)
+	case float64:
+		return GammaFloat64(x)
+	case []float64:
+		return gammaFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Gamma", a))
+}
+
+func gammaFloat32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = GammaFloat32(a[j])
+	}
+	return out
+}
+
+func gammaFloat64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = GammaFloat64(a[j])
+	}
+	return out
+}
+
+func j0(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return J0Float32(x)
+	case []float32:
+		return j0Float32(x)
+	case float64:
+		return J0Float64(x)
+	case []float64:
+		return j0Float64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "J0", a))
+}
+
+func j0Float32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = J0Float32(a[j])
+	}
+	return out
+}
+
+func j0Float64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = J0Float64(a[j])
+	}
+	return out
+}
+
+func j1(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return J1Float32(x)
+	case []float32:
+		return j1Float32(x)
+	case float64:
+		return J1Float64(x)
+	case []float64:
+		return j1Float64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "J1", a))
+}
+
+func j1Float32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = J1Float32(a[j])
+	}
+	return out
+}
+
+func j1Float64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = J1Float64(a[j])
+	}
+	return out
+}
+
+func log(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return LogFloat32(x)
+	case []float32:
+		return logFloat32(x)
+	case float64:
+		return LogFloat64(x)
+	case []float64:
+		return logFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Log", a))
+}
+
+func logFloat32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = LogFloat32(a[j])
+	}
+	return out
+}
+
+func logFloat64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = LogFloat64(a[j])
+	}
+	return out
+}
+
+func log10(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return Log10Float32(x)
+	case []float32:
+		return log10Float32(x)
+	case float64:
+		return Log10Float64(x)
+	case []float64:
+		return log10Float64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Log10", a))
+}
+
+func log10Float32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = Log10Float32(a[j])
+	}
+	return out
+}
+
+func log10Float64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = Log10Float64(a[j])
+	}
+	return out
+}
+
+func log1p(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return Log1pFloat32(x)
+	case []float32:
+		return log1pFloat32(x)
+	case float64:
+		return Log1pFloat64(x)
+	case []float64:
+		return log1pFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Log1p", a))
+}
+
+func log1pFloat32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = Log1pFloat32(a[j])
+	}
+	return out
+}
+
+func log1pFloat64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = Log1pFloat64(a[j])
+	}
+	return out
+}
+
+func log2(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return Log2Float32(x)
+	case []float32:
+		return log2Float32(x)
+	case float64:
+		return Log2Float64(x)
+	case []float64:
+		return log2Float64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Log2", a))
+}
+
+func log2Float32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = Log2Float32(a[j])
+	}
+	return out
+}
+
+func log2Float64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = Log2Float64(a[j])
+	}
+	return out
+}
+
+func logb(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return LogbFloat32(x)
+	case []float32:
+		return logbFloat32(x)
+	case float64:
+		return LogbFloat64(x)
+	case []float64:
+		return logbFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Logb", a))
+}
+
+func logbFloat32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = LogbFloat32(a[j])
+	}
+	return out
+}
+
+func logbFloat64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = LogbFloat64(a[j])
+	}
+	return out
+}
+
+func round(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return RoundFloat32(x)
+	case []float32:
+		return roundFloat32(x)
+	case float64:
+		return RoundFloat64(x)
+	case []float64:
+		return roundFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Round", a))
+}
+
+func roundFloat32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = RoundFloat32(a[j])
+	}
+	return out
+}
+
+func roundFloat64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = RoundFloat64(a[j])
+	}
+	return out
+}
+
+func roundtoeven(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return RoundToEvenFloat32(x)
+	case []float32:
+		return roundtoevenFloat32(x)
+	case float64:
+		return RoundToEvenFloat64(x)
+	case []float64:
+		return roundtoevenFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "RoundToEven", a))
+}
+
+func roundtoevenFloat32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = RoundToEvenFloat32(a[j])
+	}
+	return out
+}
+
+func roundtoevenFloat64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = RoundToEvenFloat64(a[j])
+	}
+	return out
+}
+
+func sin(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return SinFloat32(x)
+	case []float32:
+		return sinFloat32(x)
+	case float64:
+		return SinFloat64(x)
+	case []float64:
+		return sinFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Sin", a))
+}
+
+func sinFloat32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = SinFloat32(a[j])
+	}
+	return out
+}
+
+func sinFloat64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = SinFloat64(a[j])
+	}
+	return out
+}
+
+func sinh(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return SinhFloat32(x)
+	case []float32:
+		return sinhFloat32(x)
+	case float64:
+		return SinhFloat64(x)
+	case []float64:
+		return sinhFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Sinh", a))
+}
+
+func sinhFloat32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = SinhFloat32(a[j])
+	}
+	return out
+}
+
+func sinhFloat64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = SinhFloat64(a[j])
+	}
+	return out
+}
+
+func sqrt(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return SqrtFloat32(x)
+	case []float32:
+		return sqrtFloat32(x)
+	case float64:
+		return SqrtFloat64(x)
+	case []float64:
+		return sqrtFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Sqrt", a))
+}
+
+func sqrtFloat32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = SqrtFloat32(a[j])
+	}
+	return out
+}
+
+func sqrtFloat64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = SqrtFloat64(a[j])
+	}
+	return out
+}
+
+func tan(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return TanFloat32(x)
+	case []float32:
+		return tanFloat32(x)
+	case float64:
+		return TanFloat64(x)
+	case []float64:
+		return tanFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Tan", a))
+}
+
+func tanFloat32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = TanFloat32(a[j])
+	}
+	return out
+}
+
+func tanFloat64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = TanFloat64(a[j])
+	}
+	return out
+}
+
+func tanh(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return TanhFloat32(x)
+	case []float32:
+		return tanhFloat32(x)
+	case float64:
+		return TanhFloat64(x)
+	case []float64:
+		return tanhFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Tanh", a))
+}
+
+func tanhFloat32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = TanhFloat32(a[j])
+	}
+	return out
+}
+
+func tanhFloat64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = TanhFloat64(a[j])
+	}
+	return out
+}
+
+func trunc(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return TruncFloat32(x)
+	case []float32:
+		return truncFloat32(x)
+	case float64:
+		return TruncFloat64(x)
+	case []float64:
+		return truncFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Trunc", a))
+}
+
+func truncFloat32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = TruncFloat32(a[j])
+	}
+	return out
+}
+
+func truncFloat64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = TruncFloat64(a[j])
+	}
+	return out
+}
+
+func y0(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return Y0Float32(x)
+	case []float32:
+		return y0Float32(x)
+	case float64:
+		return Y0Float64(x)
+	case []float64:
+		return y0Float64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Y0", a))
+}
+
+func y0Float32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = Y0Float32(a[j])
+	}
+	return out
+}
+
+func y0Float64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = Y0Float64(a[j])
+	}
+	return out
+}
+
+func y1(a interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return Y1Float32(x)
+	case []float32:
+		return y1Float32(x)
+	case float64:
+		return Y1Float64(x)
+	case []float64:
+		return y1Float64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Y1", a))
+}
+
+func y1Float32(a []float32) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = Y1Float32(a[j])
+	}
+	return out
+}
+
+func y1Float64(a []float64) interface{} {
+	out := make([]float64, len(a))
+	for j, _ := range a {
+		out[j] = Y1Float64(a[j])
+	}
+	return out
+}
+
 func castFloat64(a interface{}) []float64 {
 	switch x := a.(type) {
 	case []float32:
@@ -569,6 +1650,294 @@ func AbsFloat64(a float64) float64 {
 	}
 	return a
 
+}
+
+func AcosFloat32(a float32) float64 {
+	return math.Acos(float64(a))
+}
+
+func AcosFloat64(a float64) float64 {
+	return math.Acos(float64(a))
+}
+
+func AcoshFloat32(a float32) float64 {
+	return math.Acosh(float64(a))
+}
+
+func AcoshFloat64(a float64) float64 {
+	return math.Acosh(float64(a))
+}
+
+func AsinFloat32(a float32) float64 {
+	return math.Asin(float64(a))
+}
+
+func AsinFloat64(a float64) float64 {
+	return math.Asin(float64(a))
+}
+
+func AsinhFloat32(a float32) float64 {
+	return math.Asinh(float64(a))
+}
+
+func AsinhFloat64(a float64) float64 {
+	return math.Asinh(float64(a))
+}
+
+func AtanFloat32(a float32) float64 {
+	return math.Atan(float64(a))
+}
+
+func AtanFloat64(a float64) float64 {
+	return math.Atan(float64(a))
+}
+
+func AtanhFloat32(a float32) float64 {
+	return math.Atanh(float64(a))
+}
+
+func AtanhFloat64(a float64) float64 {
+	return math.Atanh(float64(a))
+}
+
+func CbrtFloat32(a float32) float64 {
+	return math.Cbrt(float64(a))
+}
+
+func CbrtFloat64(a float64) float64 {
+	return math.Cbrt(float64(a))
+}
+
+func CeilFloat32(a float32) float64 {
+	return math.Ceil(float64(a))
+}
+
+func CeilFloat64(a float64) float64 {
+	return math.Ceil(float64(a))
+}
+
+func CosFloat32(a float32) float64 {
+	return math.Cos(float64(a))
+}
+
+func CosFloat64(a float64) float64 {
+	return math.Cos(float64(a))
+}
+
+func CoshFloat32(a float32) float64 {
+	return math.Cosh(float64(a))
+}
+
+func CoshFloat64(a float64) float64 {
+	return math.Cosh(float64(a))
+}
+
+func ErfFloat32(a float32) float64 {
+	return math.Erf(float64(a))
+}
+
+func ErfFloat64(a float64) float64 {
+	return math.Erf(float64(a))
+}
+
+func ErfcFloat32(a float32) float64 {
+	return math.Erfc(float64(a))
+}
+
+func ErfcFloat64(a float64) float64 {
+	return math.Erfc(float64(a))
+}
+
+func ErfcinvFloat32(a float32) float64 {
+	return math.Erfcinv(float64(a))
+}
+
+func ErfcinvFloat64(a float64) float64 {
+	return math.Erfcinv(float64(a))
+}
+
+func ErfinvFloat32(a float32) float64 {
+	return math.Erfinv(float64(a))
+}
+
+func ErfinvFloat64(a float64) float64 {
+	return math.Erfinv(float64(a))
+}
+
+func ExpFloat32(a float32) float64 {
+	return math.Exp(float64(a))
+}
+
+func ExpFloat64(a float64) float64 {
+	return math.Exp(float64(a))
+}
+
+func Exp2Float32(a float32) float64 {
+	return math.Exp2(float64(a))
+}
+
+func Exp2Float64(a float64) float64 {
+	return math.Exp2(float64(a))
+}
+
+func Expm1Float32(a float32) float64 {
+	return math.Expm1(float64(a))
+}
+
+func Expm1Float64(a float64) float64 {
+	return math.Expm1(float64(a))
+}
+
+func FloorFloat32(a float32) float64 {
+	return math.Floor(float64(a))
+}
+
+func FloorFloat64(a float64) float64 {
+	return math.Floor(float64(a))
+}
+
+func GammaFloat32(a float32) float64 {
+	return math.Gamma(float64(a))
+}
+
+func GammaFloat64(a float64) float64 {
+	return math.Gamma(float64(a))
+}
+
+func J0Float32(a float32) float64 {
+	return math.J0(float64(a))
+}
+
+func J0Float64(a float64) float64 {
+	return math.J0(float64(a))
+}
+
+func J1Float32(a float32) float64 {
+	return math.J1(float64(a))
+}
+
+func J1Float64(a float64) float64 {
+	return math.J1(float64(a))
+}
+
+func LogFloat32(a float32) float64 {
+	return math.Log(float64(a))
+}
+
+func LogFloat64(a float64) float64 {
+	return math.Log(float64(a))
+}
+
+func Log10Float32(a float32) float64 {
+	return math.Log10(float64(a))
+}
+
+func Log10Float64(a float64) float64 {
+	return math.Log10(float64(a))
+}
+
+func Log1pFloat32(a float32) float64 {
+	return math.Log1p(float64(a))
+}
+
+func Log1pFloat64(a float64) float64 {
+	return math.Log1p(float64(a))
+}
+
+func Log2Float32(a float32) float64 {
+	return math.Log2(float64(a))
+}
+
+func Log2Float64(a float64) float64 {
+	return math.Log2(float64(a))
+}
+
+func LogbFloat32(a float32) float64 {
+	return math.Logb(float64(a))
+}
+
+func LogbFloat64(a float64) float64 {
+	return math.Logb(float64(a))
+}
+
+func RoundFloat32(a float32) float64 {
+	return math.Round(float64(a))
+}
+
+func RoundFloat64(a float64) float64 {
+	return math.Round(float64(a))
+}
+
+func RoundToEvenFloat32(a float32) float64 {
+	return math.RoundToEven(float64(a))
+}
+
+func RoundToEvenFloat64(a float64) float64 {
+	return math.RoundToEven(float64(a))
+}
+
+func SinFloat32(a float32) float64 {
+	return math.Sin(float64(a))
+}
+
+func SinFloat64(a float64) float64 {
+	return math.Sin(float64(a))
+}
+
+func SinhFloat32(a float32) float64 {
+	return math.Sinh(float64(a))
+}
+
+func SinhFloat64(a float64) float64 {
+	return math.Sinh(float64(a))
+}
+
+func SqrtFloat32(a float32) float64 {
+	return math.Sqrt(float64(a))
+}
+
+func SqrtFloat64(a float64) float64 {
+	return math.Sqrt(float64(a))
+}
+
+func TanFloat32(a float32) float64 {
+	return math.Tan(float64(a))
+}
+
+func TanFloat64(a float64) float64 {
+	return math.Tan(float64(a))
+}
+
+func TanhFloat32(a float32) float64 {
+	return math.Tanh(float64(a))
+}
+
+func TanhFloat64(a float64) float64 {
+	return math.Tanh(float64(a))
+}
+
+func TruncFloat32(a float32) float64 {
+	return math.Trunc(float64(a))
+}
+
+func TruncFloat64(a float64) float64 {
+	return math.Trunc(float64(a))
+}
+
+func Y0Float32(a float32) float64 {
+	return math.Y0(float64(a))
+}
+
+func Y0Float64(a float64) float64 {
+	return math.Y0(float64(a))
+}
+
+func Y1Float32(a float32) float64 {
+	return math.Y1(float64(a))
+}
+
+func Y1Float64(a float64) float64 {
+	return math.Y1(float64(a))
 }
 
 func MaxFloat32(a, b float32) float32 {

@@ -101,6 +101,356 @@ func TestEvaluateAbs(t *testing.T) {
 	checkFloat64SlicesEqual(t, result.([]float64), expected)
 }
 
+func TestEvaluateAcos(t *testing.T) {
+	ast, _ := ParseExpr(`acos(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.Acos(-1.0), math.Acos(3.0), math.Acos(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateAcosh(t *testing.T) {
+	ast, _ := ParseExpr(`acosh(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.Acosh(-1.0), math.Acosh(3.0), math.Acosh(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateAsin(t *testing.T) {
+	ast, _ := ParseExpr(`asin(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.Asin(-1.0), math.Asin(3.0), math.Asin(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateAsinh(t *testing.T) {
+	ast, _ := ParseExpr(`asinh(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.Asinh(-1.0), math.Asinh(3.0), math.Asinh(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateAtan(t *testing.T) {
+	ast, _ := ParseExpr(`atan(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.Atan(-1.0), math.Atan(3.0), math.Atan(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateAtanh(t *testing.T) {
+	ast, _ := ParseExpr(`atanh(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.Atanh(-1.0), math.Atanh(3.0), math.Atanh(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateCbrt(t *testing.T) {
+	ast, _ := ParseExpr(`cbrt(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.Cbrt(-1.0), math.Cbrt(3.0), math.Cbrt(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateCeil(t *testing.T) {
+	ast, _ := ParseExpr(`ceil(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.Ceil(-1.0), math.Ceil(3.0), math.Ceil(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateCos(t *testing.T) {
+	ast, _ := ParseExpr(`cos(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.Cos(-1.0), math.Cos(3.0), math.Cos(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateCosh(t *testing.T) {
+	ast, _ := ParseExpr(`cosh(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.Cosh(-1.0), math.Cosh(3.0), math.Cosh(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateErf(t *testing.T) {
+	ast, _ := ParseExpr(`erf(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.Erf(-1.0), math.Erf(3.0), math.Erf(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateErfc(t *testing.T) {
+	ast, _ := ParseExpr(`erfc(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.Erfc(-1.0), math.Erfc(3.0), math.Erfc(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateErfcinv(t *testing.T) {
+	ast, _ := ParseExpr(`erfcinv(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.Erfcinv(-1.0), math.Erfcinv(3.0), math.Erfcinv(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateErfinv(t *testing.T) {
+	ast, _ := ParseExpr(`erfinv(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.Erfinv(-1.0), math.Erfinv(3.0), math.Erfinv(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateExp(t *testing.T) {
+	ast, _ := ParseExpr(`exp(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.Exp(-1.0), math.Exp(3.0), math.Exp(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateExp2(t *testing.T) {
+	ast, _ := ParseExpr(`exp2(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.Exp2(-1.0), math.Exp2(3.0), math.Exp2(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateExpm1(t *testing.T) {
+	ast, _ := ParseExpr(`expm1(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.Expm1(-1.0), math.Expm1(3.0), math.Expm1(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateFloor(t *testing.T) {
+	ast, _ := ParseExpr(`floor(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.Floor(-1.0), math.Floor(3.0), math.Floor(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateGamma(t *testing.T) {
+	ast, _ := ParseExpr(`gamma(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.Gamma(-1.0), math.Gamma(3.0), math.Gamma(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateJ0(t *testing.T) {
+	ast, _ := ParseExpr(`j0(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.J0(-1.0), math.J0(3.0), math.J0(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateJ1(t *testing.T) {
+	ast, _ := ParseExpr(`j1(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.J1(-1.0), math.J1(3.0), math.J1(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateLog(t *testing.T) {
+	ast, _ := ParseExpr(`log(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.Log(-1.0), math.Log(3.0), math.Log(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateLog10(t *testing.T) {
+	ast, _ := ParseExpr(`log10(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.Log10(-1.0), math.Log10(3.0), math.Log10(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateLog1p(t *testing.T) {
+	ast, _ := ParseExpr(`log1p(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.Log1p(-1.0), math.Log1p(3.0), math.Log1p(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateLog2(t *testing.T) {
+	ast, _ := ParseExpr(`log2(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.Log2(-1.0), math.Log2(3.0), math.Log2(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateLogb(t *testing.T) {
+	ast, _ := ParseExpr(`logb(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.Logb(-1.0), math.Logb(3.0), math.Logb(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateRound(t *testing.T) {
+	ast, _ := ParseExpr(`round(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.Round(-1.0), math.Round(3.0), math.Round(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateSin(t *testing.T) {
+	ast, _ := ParseExpr(`sin(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.Sin(-1.0), math.Sin(3.0), math.Sin(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateSinh(t *testing.T) {
+	ast, _ := ParseExpr(`sinh(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.Sinh(-1.0), math.Sinh(3.0), math.Sinh(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateSqrt(t *testing.T) {
+	ast, _ := ParseExpr(`sqrt(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.Sqrt(-1.0), math.Sqrt(3.0), math.Sqrt(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateTan(t *testing.T) {
+	ast, _ := ParseExpr(`tan(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.Tan(-1.0), math.Tan(3.0), math.Tan(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateTanh(t *testing.T) {
+	ast, _ := ParseExpr(`tanh(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.Tanh(-1.0), math.Tanh(3.0), math.Tanh(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateTrunc(t *testing.T) {
+	ast, _ := ParseExpr(`trunc(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.Trunc(-1.0), math.Trunc(3.0), math.Trunc(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateY0(t *testing.T) {
+	ast, _ := ParseExpr(`y0(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.Y0(-1.0), math.Y0(3.0), math.Y0(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestEvaluateY1(t *testing.T) {
+	ast, _ := ParseExpr(`y1(X)`)
+	vars := &Env{
+		"X": []float64{-1.0, 3.0, -2.0},
+	}
+	expected := []float64{math.Y1(-1.0), math.Y1(3.0), math.Y1(-2.0)}
+	result := Evaluate(ast, vars)
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
 func TestEvaluateAdd(t *testing.T) {
 	ast, _ := ParseExpr(`add(X, Y)`)
 	vars := &Env{
