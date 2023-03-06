@@ -5,6 +5,13 @@
 [![Build](https://github.com/regel/expr/actions/workflows/build.yaml/badge.svg)](https://github.com/regel/expr/actions/workflows/build.yaml)
 [![codecov](https://codecov.io/gh/regel/expr/branch/main/graph/badge.svg)](https://codecov.io/gh/regel/expr)
 
+<img
+ src="./static/expr.png"
+ raw=true
+ alt="Expression language for Go"
+ width="150" align="right"
+/>
+
 **Expr** package provides an engine that can compile and evaluate math expressions. 
 An expression is a one-liner that returns a value (mostly, but not limited to, float64 and []float64).
 It is designed for simplicity, speed and safety.
