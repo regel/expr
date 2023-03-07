@@ -2003,3 +2003,225 @@ func lenVec(a interface{}) int {
 	}
 	panic(fmt.Sprintf("invalid operation: %v %T", "len", a))
 }
+
+func nanmin(a interface{}) interface{} {
+	switch x := a.(type) {
+	case []float32:
+		return nanminFloat32(x)
+	case []float64:
+		return nanminFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "NanMin", a))
+}
+
+func nanmax(a interface{}) interface{} {
+	switch x := a.(type) {
+	case []float32:
+		return nanmaxFloat32(x)
+	case []float64:
+		return nanmaxFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "NanMax", a))
+}
+
+func nanmean(a interface{}) interface{} {
+	switch x := a.(type) {
+	case []float32:
+		return nanmeanFloat32(x)
+	case []float64:
+		return nanmeanFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "NanMean", a))
+}
+
+func nanstd(a interface{}) interface{} {
+	switch x := a.(type) {
+	case []float32:
+		return nanstdFloat32(x)
+	case []float64:
+		return nanstdFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "NanStd", a))
+}
+
+func nansum(a interface{}) interface{} {
+	switch x := a.(type) {
+	case []float32:
+		return nansumFloat32(x)
+	case []float64:
+		return nansumFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "NanSum", a))
+}
+
+func nanprod(a interface{}) interface{} {
+	switch x := a.(type) {
+	case []float32:
+		return nanprodFloat32(x)
+	case []float64:
+		return nanprodFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "NanProd", a))
+}
+
+func nanminFloat32(vec []float32) float64 {
+	out := math.NaN()
+	for i := range vec {
+		if math.IsNaN(out) || float64(vec[i]) < out {
+			out = float64(vec[i])
+		}
+	}
+	return out
+}
+
+func nanminFloat64(vec []float64) float64 {
+	out := math.NaN()
+	for i := range vec {
+		if math.IsNaN(out) || float64(vec[i]) < out {
+			out = float64(vec[i])
+		}
+	}
+	return out
+}
+
+func nanmaxFloat32(vec []float32) float64 {
+	out := math.NaN()
+	for i := range vec {
+		if math.IsNaN(out) || float64(vec[i]) > out {
+			out = float64(vec[i])
+		}
+	}
+	return out
+}
+
+func nanmaxFloat64(vec []float64) float64 {
+	out := math.NaN()
+	for i := range vec {
+		if math.IsNaN(out) || float64(vec[i]) > out {
+			out = float64(vec[i])
+		}
+	}
+	return out
+}
+
+func nansumFloat32(vec []float32) float64 {
+	out := float64(0)
+	for i := range vec {
+		if !math.IsNaN(float64(vec[i])) {
+			out += float64(vec[i])
+		}
+	}
+	return out
+}
+
+func nansumFloat64(vec []float64) float64 {
+	out := float64(0)
+	for i := range vec {
+		if !math.IsNaN(float64(vec[i])) {
+			out += float64(vec[i])
+		}
+	}
+	return out
+}
+
+func nanprodFloat32(vec []float32) float64 {
+	if len(vec) == 0 {
+		return math.NaN()
+	}
+	out := float64(1)
+	for i := range vec {
+		if !math.IsNaN(float64(vec[i])) {
+			out *= float64(vec[i])
+		}
+	}
+	return out
+}
+
+func nanprodFloat64(vec []float64) float64 {
+	if len(vec) == 0 {
+		return math.NaN()
+	}
+	out := float64(1)
+	for i := range vec {
+		if !math.IsNaN(float64(vec[i])) {
+			out *= float64(vec[i])
+		}
+	}
+	return out
+}
+
+func nanmeanFloat32(vec []float32) float64 {
+	if len(vec) == 0 {
+		return math.NaN()
+	}
+	acc := float64(0)
+	cnt := float64(0)
+	for i := range vec {
+		if !math.IsNaN(float64(vec[i])) {
+			acc += float64(vec[i])
+			cnt += 1
+		}
+		if cnt == 0 {
+			return math.NaN()
+		}
+	}
+	return acc / cnt
+}
+
+func nanmeanFloat64(vec []float64) float64 {
+	if len(vec) == 0 {
+		return math.NaN()
+	}
+	acc := float64(0)
+	cnt := float64(0)
+	for i := range vec {
+		if !math.IsNaN(float64(vec[i])) {
+			acc += float64(vec[i])
+			cnt += 1
+		}
+		if cnt == 0 {
+			return math.NaN()
+		}
+	}
+	return acc / cnt
+}
+
+func nanstdFloat32(vec []float32) float64 {
+	if len(vec) < 2 {
+		// stdev requires at least two data points
+		return math.NaN()
+	}
+	mu := nanmeanFloat32(vec)
+	acc := float64(0)
+	cnt := float64(0)
+	for i := range vec {
+		if !math.IsNaN(float64(vec[i])) {
+			acc += (float64(vec[i]) - mu) * (float64(vec[i]) - mu)
+			cnt += 1
+		}
+		if cnt == 0 {
+			return math.NaN()
+		}
+	}
+	return math.Sqrt(acc / (cnt - 1))
+}
+
+func nanstdFloat64(vec []float64) float64 {
+	if len(vec) < 2 {
+		// stdev requires at least two data points
+		return math.NaN()
+	}
+	mu := nanmeanFloat64(vec)
+	acc := float64(0)
+	cnt := float64(0)
+	for i := range vec {
+		if !math.IsNaN(float64(vec[i])) {
+			acc += (float64(vec[i]) - mu) * (float64(vec[i]) - mu)
+			cnt += 1
+		}
+		if cnt == 0 {
+			return math.NaN()
+		}
+	}
+	return math.Sqrt(acc / (cnt - 1))
+}

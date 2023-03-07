@@ -282,6 +282,12 @@ func isFunction(token string) bool {
 		"trunc":       true,
 		"y0":          true,
 		"y1":          true,
+		"nanmin":      true,
+		"nanmax":      true,
+		"nanmean":     true,
+		"nanstd":      true,
+		"nansum":      true,
+		"nanprod":     true,
 	}
 	return functions[token]
 }

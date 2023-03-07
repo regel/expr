@@ -164,6 +164,18 @@ func Evaluate(node *AST, env *Env) interface{} {
 	case "max":
 		args := right.(Args)
 		return max(args[0], args[1])
+	case "nanmin":
+		return nanmin(right)
+	case "nanmax":
+		return nanmax(right)
+	case "nanmean":
+		return nanmean(right)
+	case "nanstd":
+		return nanstd(right)
+	case "nansum":
+		return nansum(right)
+	case "nanprod":
+		return nanprod(right)
 	}
 	return 0
 }

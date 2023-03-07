@@ -2937,3 +2937,225 @@ func TestY1BadArg(t *testing.T) {
 	}()
 	y1("ko")
 }
+
+/*** nanmin() ***/
+
+func TestNanMinWrongType(t *testing.T) {
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf("The code did not panic")
+		}
+	}()
+	nanmin("foo")
+}
+
+func TestNanMinFloat64Vec(t *testing.T) {
+	a := []float64{1.0, -1.0, 2.0}
+	expected := -1.0
+	result := nanmin(a)
+	if _, ok := result.(float64); !ok {
+		t.Errorf("output value is not float64")
+	}
+	const epsilon float64 = 0.0001
+	if math.Abs(result.(float64)-expected) > float64(epsilon) {
+		t.Fatalf("output value differs, got: %f expected %f", result.(float64), expected)
+	}
+}
+
+func TestNanMinFloat32Vec(t *testing.T) {
+	a := []float32{1.0, -1.0, 2.0}
+	expected := -1.0
+	result := nanmin(a)
+	if _, ok := result.(float64); !ok {
+		t.Errorf("output value is not float64")
+	}
+	const epsilon float64 = 0.0001
+	if math.Abs(result.(float64)-expected) > float64(epsilon) {
+		t.Fatalf("output value differs, got: %f expected %f", result.(float64), expected)
+	}
+}
+
+/*** nanmax() ***/
+
+func TestNanMaxWrongType(t *testing.T) {
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf("The code did not panic")
+		}
+	}()
+	nanmax("foo")
+}
+
+func TestNanMaxFloat64Vec(t *testing.T) {
+	a := []float64{1.0, -1.0, 2.0}
+	expected := 2.0
+	result := nanmax(a)
+	if _, ok := result.(float64); !ok {
+		t.Errorf("output value is not float64")
+	}
+	const epsilon float64 = 0.0001
+	if math.Abs(result.(float64)-expected) > float64(epsilon) {
+		t.Fatalf("output value differs, got: %f expected %f", result.(float64), expected)
+	}
+}
+
+func TestNanMaxFloat32Vec(t *testing.T) {
+	a := []float32{1.0, -1.0, 2.0}
+	expected := 2.0
+	result := nanmax(a)
+	if _, ok := result.(float64); !ok {
+		t.Errorf("output value is not float64")
+	}
+	const epsilon float64 = 0.0001
+	if math.Abs(result.(float64)-expected) > float64(epsilon) {
+		t.Fatalf("output value differs, got: %f expected %f", result.(float64), expected)
+	}
+}
+
+/*** nanmean() ***/
+
+func TestNanMeanWrongType(t *testing.T) {
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf("The code did not panic")
+		}
+	}()
+	nanmean("foo")
+}
+
+func TestNanMeanFloat64Vec(t *testing.T) {
+	a := []float64{1.0, -1.0, 2.0}
+	expected := 2.0 / 3.0
+	result := nanmean(a)
+	if _, ok := result.(float64); !ok {
+		t.Errorf("output value is not float64")
+	}
+	const epsilon float64 = 0.0001
+	if math.Abs(result.(float64)-expected) > float64(epsilon) {
+		t.Fatalf("output value differs, got: %f expected %f", result.(float64), expected)
+	}
+}
+
+func TestNanMeanFloat32Vec(t *testing.T) {
+	a := []float32{1.0, -1.0, 2.0}
+	expected := 2.0 / 3.0
+	result := nanmean(a)
+	if _, ok := result.(float64); !ok {
+		t.Errorf("output value is not float64")
+	}
+	const epsilon float64 = 0.0001
+	if math.Abs(result.(float64)-expected) > float64(epsilon) {
+		t.Fatalf("output value differs, got: %f expected %f", result.(float64), expected)
+	}
+}
+
+/*** nansum() ***/
+
+func TestNanSumWrongType(t *testing.T) {
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf("The code did not panic")
+		}
+	}()
+	nansum("foo")
+}
+
+func TestNanSumFloat64Vec(t *testing.T) {
+	a := []float64{1.0, -1.0, 2.0}
+	expected := 2.0
+	result := nansum(a)
+	if _, ok := result.(float64); !ok {
+		t.Errorf("output value is not float64")
+	}
+	const epsilon float64 = 0.0001
+	if math.Abs(result.(float64)-expected) > float64(epsilon) {
+		t.Fatalf("output value differs, got: %f expected %f", result.(float64), expected)
+	}
+}
+
+func TestNanSumFloat32Vec(t *testing.T) {
+	a := []float32{1.0, -1.0, 2.0}
+	expected := 2.0
+	result := nansum(a)
+	if _, ok := result.(float64); !ok {
+		t.Errorf("output value is not float64")
+	}
+	const epsilon float64 = 0.0001
+	if math.Abs(result.(float64)-expected) > float64(epsilon) {
+		t.Fatalf("output value differs, got: %f expected %f", result.(float64), expected)
+	}
+}
+
+/*** nanprod() ***/
+
+func TestNanProdWrongType(t *testing.T) {
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf("The code did not panic")
+		}
+	}()
+	nanprod("foo")
+}
+
+func TestNanProdFloat64Vec(t *testing.T) {
+	a := []float64{1.0, -1.0, 2.0}
+	expected := -2.0
+	result := nanprod(a)
+	if _, ok := result.(float64); !ok {
+		t.Errorf("output value is not float64")
+	}
+	const epsilon float64 = 0.0001
+	if math.Abs(result.(float64)-expected) > float64(epsilon) {
+		t.Fatalf("output value differs, got: %f expected %f", result.(float64), expected)
+	}
+}
+
+func TestNanProdFloat32Vec(t *testing.T) {
+	a := []float32{1.0, -1.0, 2.0}
+	expected := -2.0
+	result := nanprod(a)
+	if _, ok := result.(float64); !ok {
+		t.Errorf("output value is not float64")
+	}
+	const epsilon float64 = 0.0001
+	if math.Abs(result.(float64)-expected) > float64(epsilon) {
+		t.Fatalf("output value differs, got: %f expected %f", result.(float64), expected)
+	}
+}
+
+/*** nanstd() ***/
+
+func TestNanStdWrongType(t *testing.T) {
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf("The code did not panic")
+		}
+	}()
+	nanstd("foo")
+}
+
+func TestNanStdFloat64Vec(t *testing.T) {
+	a := []float64{1.0, -1.0, 2.0}
+	expected := 1.527525
+	result := nanstd(a)
+	if _, ok := result.(float64); !ok {
+		t.Errorf("output value is not float64")
+	}
+	const epsilon float64 = 0.0001
+	if math.Abs(result.(float64)-expected) > float64(epsilon) {
+		t.Fatalf("output value differs, got: %f expected %f", result.(float64), expected)
+	}
+}
+
+func TestNanStdFloat32Vec(t *testing.T) {
+	a := []float32{1.0, -1.0, 2.0}
+	expected := 1.527525
+	result := nanstd(a)
+	if _, ok := result.(float64); !ok {
+		t.Errorf("output value is not float64")
+	}
+	const epsilon float64 = 0.0001
+	if math.Abs(result.(float64)-expected) > float64(epsilon) {
+		t.Fatalf("output value differs, got: %f expected %f", result.(float64), expected)
+	}
+}
