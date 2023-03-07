@@ -1201,6 +1201,43 @@ func TestMaxFloatMixVec2(t *testing.T) {
 	checkFloat64SlicesEqual(t, result.([]float64), expected)
 }
 
+/*** sum() ***/
+
+func TestSumWrongType(t *testing.T) {
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf("The code did not panic")
+		}
+	}()
+	sum("foo")
+}
+
+func TestSumFloat64Vec(t *testing.T) {
+	a := []float64{-1.0, 1.0}
+	expected := 0.0
+	result := sum(a)
+	if _, ok := result.(float64); !ok {
+		t.Errorf("output value is not float64")
+	}
+	const epsilon float64 = 0.0001
+	if math.Abs(result.(float64)-expected) > float64(epsilon) {
+		t.Fatalf("output value differs, got: %f expected %f", result.(float64), expected)
+	}
+}
+
+func TestSumFloat32Vec(t *testing.T) {
+	a := []float32{-1.0, 1.0}
+	expected := float32(0.0)
+	result := sum(a)
+	if _, ok := result.(float32); !ok {
+		t.Errorf("output value is not float32")
+	}
+	const epsilon float32 = 0.0001
+	if math.Abs(float64(result.(float32)-expected)) > float64(epsilon) {
+		t.Fatalf("output value differs, got: %f expected %f", result.(float32), expected)
+	}
+}
+
 /*** abs() ***/
 
 func TestAbsWrongType(t *testing.T) {

@@ -70,6 +70,8 @@ func Evaluate(node *AST, env *Env) interface{} {
 		return divide(left, right)
 	case ",":
 		return concat(left, right)
+	case "sum":
+		return sum(right)
 	case "abs":
 		return abs(right)
 	case "acos":

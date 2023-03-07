@@ -499,6 +499,32 @@ func minFloat64(a, b []float64) interface{} {
 	return out
 }
 
+func sum(a interface{}) interface{} {
+	switch x := a.(type) {
+	case []float32:
+		return sumFloat32(x)
+	case []float64:
+		return sumFloat64(x)
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T", "Sum", a))
+}
+
+func sumFloat32(a []float32) interface{} {
+	out := float32(0.0)
+	for j, _ := range a {
+		out += a[j]
+	}
+	return out
+}
+
+func sumFloat64(a []float64) interface{} {
+	out := float64(0.0)
+	for j, _ := range a {
+		out += a[j]
+	}
+	return out
+}
+
 func abs(a interface{}) interface{} {
 	switch x := a.(type) {
 	case float32:

@@ -244,6 +244,7 @@ func isFunction(token string) bool {
 		"div":         true,
 		"min":         true,
 		"max":         true,
+		"sum":         true,
 		"abs":         true,
 		"acos":        true,
 		"acosh":       true,

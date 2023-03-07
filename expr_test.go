@@ -77,6 +77,30 @@ func TestEvaluateMissingOperand(t *testing.T) {
 	}
 }
 
+func TestEvaluateCos(t *testing.T) {
+	code := `2 * cos(Features)`
+	program, err := expr.Compile(code)
+	require.NoError(t, err)
+	env := &ast.Env{
+		"Features": []float64{-1.0, 0.0, 1.0},
+	}
+	_, err = expr.Run(program, env)
+	require.NoError(t, err)
+}
+
+func TestEvaluateSum(t *testing.T) {
+	code := `1 - sum(Features) / 2.0`
+	program, err := expr.Compile(code)
+	require.NoError(t, err)
+	env := &ast.Env{
+		"Features": []float64{-1.0, 1.0, 1.0},
+	}
+	actual, err := expr.Run(program, env)
+	expected := 0.5
+	require.NoError(t, err)
+	require.Equal(t, expected, actual)
+}
+
 func BenchmarkFloat_expr(b *testing.B) {
 	params := &ast.Env{
 		"aa": 1.0,
