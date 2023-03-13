@@ -288,6 +288,9 @@ func isFunction(token string) bool {
 		"nanstd":      true,
 		"nansum":      true,
 		"nanprod":     true,
+		"mod":         true,
+		"pow":         true,
+		"remainder":   true,
 	}
 	return functions[token]
 }

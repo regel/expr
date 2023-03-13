@@ -811,6 +811,591 @@ func TestDivFloatMixVec2(t *testing.T) {
 	checkFloat64SlicesEqual(t, result.([]float64), expected)
 }
 
+/*** mod() ***/
+
+func TestModWrongType(t *testing.T) {
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf("The code did not panic")
+		}
+	}()
+	mod("foo", 1.0)
+}
+
+func TestModFloat64(t *testing.T) {
+	a := float64(1.0)
+	b := float64(2.0)
+	expected := math.Mod(a, b)
+	result := mod(a, b)
+	if _, ok := result.(float64); !ok {
+		t.Errorf("output value is not float64")
+	}
+	if math.Abs(result.(float64)-expected) > 1e-9 {
+		t.Errorf("expected %f but got %f", expected, result.(float64))
+	}
+}
+
+func TestModFloat32(t *testing.T) {
+	a := float32(1.0)
+	b := float32(2.0)
+	expected := math.Mod(float64(a), float64(b))
+	result := mod(a, b)
+	if _, ok := result.(float64); !ok {
+		t.Errorf("output value is not float64")
+	}
+	if math.Abs(float64(result.(float64))-expected) > 1e-6 {
+		t.Errorf("expected %f but got %f", expected, result.(float64))
+	}
+}
+
+func TestModFloatMix(t *testing.T) {
+	a := float64(1.0)
+	b := float32(2.0)
+	expected := math.Mod(float64(a), float64(b))
+	result := mod(a, b)
+	if _, ok := result.(float64); !ok {
+		t.Errorf("output value is not float64")
+	}
+	if math.Abs(result.(float64)-expected) > 1e-9 {
+		t.Errorf("expected %f but got %f", expected, result.(float64))
+	}
+}
+
+func TestModFloatMix2(t *testing.T) {
+	a := float32(1.0)
+	b := float64(2.0)
+	expected := math.Mod(float64(a), float64(b))
+	result := mod(a, b)
+	if _, ok := result.(float64); !ok {
+		t.Errorf("output value is not float64")
+	}
+	if math.Abs(result.(float64)-expected) > 1e-9 {
+		t.Errorf("expected %f but got %f", expected, result.(float64))
+	}
+}
+
+func TestModFloat64Vec(t *testing.T) {
+	a := []float64{1.0, 2.0}
+	b := []float64{2.0, 3.0}
+	expected := []float64{math.Mod(1.0, 2.0), math.Mod(2.0, 3.0)}
+	result := mod(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestModFloat64VecBroadcastFloat64(t *testing.T) {
+	a := float64(0.5)
+	b := []float64{2.0, 3.0}
+	expected := []float64{math.Mod(0.5, 2.0), math.Mod(0.5, 3.0)}
+	result := mod(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestModFloat64VecBroadcastFloat32(t *testing.T) {
+	a := float32(0.5)
+	b := []float64{2.0, 3.0}
+	expected := []float64{math.Mod(0.5, 2.0), math.Mod(0.5, 3.0)}
+	result := mod(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestModFloat64VecBroadcastFloat64_(t *testing.T) {
+	a := []float64{2.0, 3.0}
+	b := float64(0.5)
+	expected := []float64{math.Mod(2.0, 0.5), math.Mod(3.0, 0.5)}
+	result := mod(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestModFloat64VecBroadcastFloat32_(t *testing.T) {
+	a := []float64{2.0, 3.0}
+	b := float32(0.5)
+	expected := []float64{math.Mod(2.0, 0.5), math.Mod(3.0, 0.5)}
+	result := mod(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestModFloat32Vec(t *testing.T) {
+	a := []float32{1.0, 2.0}
+	b := []float32{2.0, 3.0}
+	expected := []float64{math.Mod(1.0, 2.0), math.Mod(2.0, 3.0)}
+	result := mod(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestModFloat32BroadcastFloat32(t *testing.T) {
+	a := float32(0.5)
+	b := []float32{2.0, 3.0}
+	expected := []float64{math.Mod(0.5, 2.0), math.Mod(0.5, 3.0)}
+	result := mod(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestModFloat32BroadcastFloat64(t *testing.T) {
+	a := float64(0.5)
+	b := []float32{2.0, 3.0}
+	expected := []float64{math.Mod(0.5, 2.0), math.Mod(0.5, 3.0)}
+	result := mod(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestModFloat32BroadcastFloat32_(t *testing.T) {
+	a := []float32{2.0, 3.0}
+	b := float32(0.5)
+	expected := []float64{math.Mod(2.0, 0.5), math.Mod(3.0, 0.5)}
+	result := mod(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestModFloat32BroadcastFloat64_(t *testing.T) {
+	a := []float32{2.0, 3.0}
+	b := float64(0.5)
+	expected := []float64{math.Mod(2.0, 0.5), math.Mod(3.0, 0.5)}
+	result := mod(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestModFloatMixVec(t *testing.T) {
+	a := []float64{1.0, 2.0}
+	b := []float32{2.0, 3.0}
+	expected := []float64{math.Mod(1.0, 2.0), math.Mod(2.0, 3.0)}
+	result := mod(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestModFloatMixVec2(t *testing.T) {
+	a := []float32{1.0, 2.0}
+	b := []float64{2.0, 3.0}
+	expected := []float64{math.Mod(1.0, 2.0), math.Mod(2.0, 3.0)}
+	result := mod(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+/*** pow() ***/
+
+func TestPowWrongType(t *testing.T) {
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf("The code did not panic")
+		}
+	}()
+	pow("foo", 1.0)
+}
+
+func TestPowFloat64(t *testing.T) {
+	a := float64(1.0)
+	b := float64(2.0)
+	expected := math.Pow(a, b)
+	result := pow(a, b)
+	if _, ok := result.(float64); !ok {
+		t.Errorf("output value is not float64")
+	}
+	if math.Abs(result.(float64)-expected) > 1e-9 {
+		t.Errorf("expected %f but got %f", expected, result.(float64))
+	}
+}
+
+func TestPowFloat32(t *testing.T) {
+	a := float32(1.0)
+	b := float32(2.0)
+	expected := math.Pow(float64(a), float64(b))
+	result := pow(a, b)
+	if _, ok := result.(float64); !ok {
+		t.Errorf("output value is not float64")
+	}
+	if math.Abs(float64(result.(float64))-expected) > 1e-6 {
+		t.Errorf("expected %f but got %f", expected, result.(float64))
+	}
+}
+
+func TestPowFloatMix(t *testing.T) {
+	a := float64(1.0)
+	b := float32(2.0)
+	expected := math.Pow(float64(a), float64(b))
+	result := pow(a, b)
+	if _, ok := result.(float64); !ok {
+		t.Errorf("output value is not float64")
+	}
+	if math.Abs(result.(float64)-expected) > 1e-9 {
+		t.Errorf("expected %f but got %f", expected, result.(float64))
+	}
+}
+
+func TestPowFloatMix2(t *testing.T) {
+	a := float32(1.0)
+	b := float64(2.0)
+	expected := math.Pow(float64(a), float64(b))
+	result := pow(a, b)
+	if _, ok := result.(float64); !ok {
+		t.Errorf("output value is not float64")
+	}
+	if math.Abs(result.(float64)-expected) > 1e-9 {
+		t.Errorf("expected %f but got %f", expected, result.(float64))
+	}
+}
+
+func TestPowFloat64Vec(t *testing.T) {
+	a := []float64{1.0, 2.0}
+	b := []float64{2.0, 3.0}
+	expected := []float64{math.Pow(1.0, 2.0), math.Pow(2.0, 3.0)}
+	result := pow(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestPowFloat64VecBroadcastFloat64(t *testing.T) {
+	a := float64(0.5)
+	b := []float64{2.0, 3.0}
+	expected := []float64{math.Pow(0.5, 2.0), math.Pow(0.5, 3.0)}
+	result := pow(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestPowFloat64VecBroadcastFloat32(t *testing.T) {
+	a := float32(0.5)
+	b := []float64{2.0, 3.0}
+	expected := []float64{math.Pow(0.5, 2.0), math.Pow(0.5, 3.0)}
+	result := pow(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestPowFloat64VecBroadcastFloat64_(t *testing.T) {
+	a := []float64{2.0, 3.0}
+	b := float64(0.5)
+	expected := []float64{math.Pow(2.0, 0.5), math.Pow(3.0, 0.5)}
+	result := pow(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestPowFloat64VecBroadcastFloat32_(t *testing.T) {
+	a := []float64{2.0, 3.0}
+	b := float32(0.5)
+	expected := []float64{math.Pow(2.0, 0.5), math.Pow(3.0, 0.5)}
+	result := pow(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestPowFloat32Vec(t *testing.T) {
+	a := []float32{1.0, 2.0}
+	b := []float32{2.0, 3.0}
+	expected := []float64{math.Pow(1.0, 2.0), math.Pow(2.0, 3.0)}
+	result := pow(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestPowFloat32BroadcastFloat32(t *testing.T) {
+	a := float32(0.5)
+	b := []float32{2.0, 3.0}
+	expected := []float64{math.Pow(0.5, 2.0), math.Pow(0.5, 3.0)}
+	result := pow(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestPowFloat32BroadcastFloat64(t *testing.T) {
+	a := float64(0.5)
+	b := []float32{2.0, 3.0}
+	expected := []float64{math.Pow(0.5, 2.0), math.Pow(0.5, 3.0)}
+	result := pow(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestPowFloat32BroadcastFloat32_(t *testing.T) {
+	a := []float32{2.0, 3.0}
+	b := float32(0.5)
+	expected := []float64{math.Pow(2.0, 0.5), math.Pow(3.0, 0.5)}
+	result := pow(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestPowFloat32BroadcastFloat64_(t *testing.T) {
+	a := []float32{2.0, 3.0}
+	b := float64(0.5)
+	expected := []float64{math.Pow(2.0, 0.5), math.Pow(3.0, 0.5)}
+	result := pow(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestPowFloatMixVec(t *testing.T) {
+	a := []float64{1.0, 2.0}
+	b := []float32{2.0, 3.0}
+	expected := []float64{math.Pow(1.0, 2.0), math.Pow(2.0, 3.0)}
+	result := pow(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestPowFloatMixVec2(t *testing.T) {
+	a := []float32{1.0, 2.0}
+	b := []float64{2.0, 3.0}
+	expected := []float64{math.Pow(1.0, 2.0), math.Pow(2.0, 3.0)}
+	result := pow(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+/*** remainder() ***/
+
+func TestRemainderWrongType(t *testing.T) {
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf("The code did not panic")
+		}
+	}()
+	remainder("foo", 1.0)
+}
+
+func TestRemainderFloat64(t *testing.T) {
+	a := float64(1.0)
+	b := float64(2.0)
+	expected := math.Remainder(a, b)
+	result := remainder(a, b)
+	if _, ok := result.(float64); !ok {
+		t.Errorf("output value is not float64")
+	}
+	if math.Abs(result.(float64)-expected) > 1e-9 {
+		t.Errorf("expected %f but got %f", expected, result.(float64))
+	}
+}
+
+func TestRemainderFloat32(t *testing.T) {
+	a := float32(1.0)
+	b := float32(2.0)
+	expected := math.Remainder(float64(a), float64(b))
+	result := remainder(a, b)
+	if _, ok := result.(float64); !ok {
+		t.Errorf("output value is not float64")
+	}
+	if math.Abs(float64(result.(float64))-expected) > 1e-6 {
+		t.Errorf("expected %f but got %f", expected, result.(float64))
+	}
+}
+
+func TestRemainderFloatMix(t *testing.T) {
+	a := float64(1.0)
+	b := float32(2.0)
+	expected := math.Remainder(float64(a), float64(b))
+	result := remainder(a, b)
+	if _, ok := result.(float64); !ok {
+		t.Errorf("output value is not float64")
+	}
+	if math.Abs(result.(float64)-expected) > 1e-9 {
+		t.Errorf("expected %f but got %f", expected, result.(float64))
+	}
+}
+
+func TestRemainderFloatMix2(t *testing.T) {
+	a := float32(1.0)
+	b := float64(2.0)
+	expected := math.Remainder(float64(a), float64(b))
+	result := remainder(a, b)
+	if _, ok := result.(float64); !ok {
+		t.Errorf("output value is not float64")
+	}
+	if math.Abs(result.(float64)-expected) > 1e-9 {
+		t.Errorf("expected %f but got %f", expected, result.(float64))
+	}
+}
+
+func TestRemainderFloat64Vec(t *testing.T) {
+	a := []float64{1.0, 2.0}
+	b := []float64{2.0, 3.0}
+	expected := []float64{math.Remainder(1.0, 2.0), math.Remainder(2.0, 3.0)}
+	result := remainder(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestRemainderFloat64VecBroadcastFloat64(t *testing.T) {
+	a := float64(0.5)
+	b := []float64{2.0, 3.0}
+	expected := []float64{math.Remainder(0.5, 2.0), math.Remainder(0.5, 3.0)}
+	result := remainder(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestRemainderFloat64VecBroadcastFloat32(t *testing.T) {
+	a := float32(0.5)
+	b := []float64{2.0, 3.0}
+	expected := []float64{math.Remainder(0.5, 2.0), math.Remainder(0.5, 3.0)}
+	result := remainder(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestRemainderFloat64VecBroadcastFloat64_(t *testing.T) {
+	a := []float64{2.0, 3.0}
+	b := float64(0.5)
+	expected := []float64{math.Remainder(2.0, 0.5), math.Remainder(3.0, 0.5)}
+	result := remainder(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestRemainderFloat64VecBroadcastFloat32_(t *testing.T) {
+	a := []float64{2.0, 3.0}
+	b := float32(0.5)
+	expected := []float64{math.Remainder(2.0, 0.5), math.Remainder(3.0, 0.5)}
+	result := remainder(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestRemainderFloat32Vec(t *testing.T) {
+	a := []float32{1.0, 2.0}
+	b := []float32{2.0, 3.0}
+	expected := []float64{math.Remainder(1.0, 2.0), math.Remainder(2.0, 3.0)}
+	result := remainder(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestRemainderFloat32BroadcastFloat32(t *testing.T) {
+	a := float32(0.5)
+	b := []float32{2.0, 3.0}
+	expected := []float64{math.Remainder(0.5, 2.0), math.Remainder(0.5, 3.0)}
+	result := remainder(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestRemainderFloat32BroadcastFloat64(t *testing.T) {
+	a := float64(0.5)
+	b := []float32{2.0, 3.0}
+	expected := []float64{math.Remainder(0.5, 2.0), math.Remainder(0.5, 3.0)}
+	result := remainder(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestRemainderFloat32BroadcastFloat32_(t *testing.T) {
+	a := []float32{2.0, 3.0}
+	b := float32(0.5)
+	expected := []float64{math.Remainder(2.0, 0.5), math.Remainder(3.0, 0.5)}
+	result := remainder(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestRemainderFloat32BroadcastFloat64_(t *testing.T) {
+	a := []float32{2.0, 3.0}
+	b := float64(0.5)
+	expected := []float64{math.Remainder(2.0, 0.5), math.Remainder(3.0, 0.5)}
+	result := remainder(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestRemainderFloatMixVec(t *testing.T) {
+	a := []float64{1.0, 2.0}
+	b := []float32{2.0, 3.0}
+	expected := []float64{math.Remainder(1.0, 2.0), math.Remainder(2.0, 3.0)}
+	result := remainder(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
+func TestRemainderFloatMixVec2(t *testing.T) {
+	a := []float32{1.0, 2.0}
+	b := []float64{2.0, 3.0}
+	expected := []float64{math.Remainder(1.0, 2.0), math.Remainder(2.0, 3.0)}
+	result := remainder(a, b)
+	if _, ok := result.([]float64); !ok {
+		t.Errorf("output value is not []float64")
+	}
+	checkFloat64SlicesEqual(t, result.([]float64), expected)
+}
+
 /*** min() ***/
 
 func TestMinWrongType(t *testing.T) {

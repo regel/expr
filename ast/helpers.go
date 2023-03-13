@@ -359,6 +359,276 @@ func divideVecFloat64(a, b []float64) interface{} {
 	return out
 }
 
+/*** mod() ***/
+
+func mod(a, b interface{}) interface{} {
+	switch x := a.(type) {
+	case []float32:
+		return modVec(a, b)
+	case float32:
+		switch y := b.(type) {
+		case []float32:
+			return modVec(a, b)
+		case float32:
+			return math.Mod(float64(x), float64(y))
+		case []float64:
+			return modVec(a, b)
+		case float64:
+			return math.Mod(float64(x), y)
+		}
+	case []float64:
+		return modVec(a, b)
+	case float64:
+		switch y := b.(type) {
+		case []float32:
+			return modVec(a, b)
+		case float32:
+			return math.Mod(x, float64(y))
+		case []float64:
+			return modVec(a, b)
+		case float64:
+			return math.Mod(x, y)
+		}
+	}
+	panic(fmt.Sprintf("invalid operation: %T %v %T", a, "mod", b))
+}
+
+func modVec(a, b interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return modVec(repeatFloat32(x, lenVec(b)), b)
+	case []float32:
+		switch y := b.(type) {
+		case float32:
+			return modVec(a, repeatFloat32(y, lenVec(a)))
+		case []float32:
+			return modVecFloat32(x, y)
+		case float64:
+			return modVec(a, repeatFloat64(y, lenVec(a)))
+		case []float64:
+			return modVecFloat64(castFloat64(x), y)
+		}
+	case float64:
+		return modVec(repeatFloat64(x, lenVec(b)), b)
+	case []float64:
+		switch y := b.(type) {
+		case float32:
+			return modVec(a, repeatFloat32(y, lenVec(a)))
+		case []float32:
+			return modVecFloat64(x, castFloat64(y))
+		case float64:
+			return modVec(a, repeatFloat64(y, lenVec(a)))
+		case []float64:
+			return modVecFloat64(x, y)
+		}
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T %T", "Mod", a, b))
+}
+
+func modVecFloat32(a, b []float32) interface{} {
+	outSize := len(a)
+	if len(b) < len(a) {
+		outSize = len(b)
+	}
+	out := make([]float64, outSize)
+	for j, _ := range a {
+		out[j] = ModFloat32(a[j], b[j])
+	}
+	return out
+}
+
+func modVecFloat64(a, b []float64) interface{} {
+	outSize := len(a)
+	if len(b) < len(a) {
+		outSize = len(b)
+	}
+	out := make([]float64, outSize)
+	for j, _ := range a {
+		out[j] = ModFloat64(a[j], b[j])
+	}
+	return out
+}
+
+/*** pow() ***/
+
+func pow(a, b interface{}) interface{} {
+	switch x := a.(type) {
+	case []float32:
+		return powVec(a, b)
+	case float32:
+		switch y := b.(type) {
+		case []float32:
+			return powVec(a, b)
+		case float32:
+			return math.Pow(float64(x), float64(y))
+		case []float64:
+			return powVec(a, b)
+		case float64:
+			return math.Pow(float64(x), y)
+		}
+	case []float64:
+		return powVec(a, b)
+	case float64:
+		switch y := b.(type) {
+		case []float32:
+			return powVec(a, b)
+		case float32:
+			return math.Pow(x, float64(y))
+		case []float64:
+			return powVec(a, b)
+		case float64:
+			return math.Pow(x, y)
+		}
+	}
+	panic(fmt.Sprintf("invalid operation: %T %v %T", a, "pow", b))
+}
+
+func powVec(a, b interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return powVec(repeatFloat32(x, lenVec(b)), b)
+	case []float32:
+		switch y := b.(type) {
+		case float32:
+			return powVec(a, repeatFloat32(y, lenVec(a)))
+		case []float32:
+			return powVecFloat32(x, y)
+		case float64:
+			return powVec(a, repeatFloat64(y, lenVec(a)))
+		case []float64:
+			return powVecFloat64(castFloat64(x), y)
+		}
+	case float64:
+		return powVec(repeatFloat64(x, lenVec(b)), b)
+	case []float64:
+		switch y := b.(type) {
+		case float32:
+			return powVec(a, repeatFloat32(y, lenVec(a)))
+		case []float32:
+			return powVecFloat64(x, castFloat64(y))
+		case float64:
+			return powVec(a, repeatFloat64(y, lenVec(a)))
+		case []float64:
+			return powVecFloat64(x, y)
+		}
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T %T", "Pow", a, b))
+}
+
+func powVecFloat32(a, b []float32) interface{} {
+	outSize := len(a)
+	if len(b) < len(a) {
+		outSize = len(b)
+	}
+	out := make([]float64, outSize)
+	for j, _ := range a {
+		out[j] = PowFloat32(a[j], b[j])
+	}
+	return out
+}
+
+func powVecFloat64(a, b []float64) interface{} {
+	outSize := len(a)
+	if len(b) < len(a) {
+		outSize = len(b)
+	}
+	out := make([]float64, outSize)
+	for j, _ := range a {
+		out[j] = PowFloat64(a[j], b[j])
+	}
+	return out
+}
+
+/*** remainder() ***/
+
+func remainder(a, b interface{}) interface{} {
+	switch x := a.(type) {
+	case []float32:
+		return remainderVec(a, b)
+	case float32:
+		switch y := b.(type) {
+		case []float32:
+			return remainderVec(a, b)
+		case float32:
+			return math.Remainder(float64(x), float64(y))
+		case []float64:
+			return remainderVec(a, b)
+		case float64:
+			return math.Remainder(float64(x), y)
+		}
+	case []float64:
+		return remainderVec(a, b)
+	case float64:
+		switch y := b.(type) {
+		case []float32:
+			return remainderVec(a, b)
+		case float32:
+			return math.Remainder(x, float64(y))
+		case []float64:
+			return remainderVec(a, b)
+		case float64:
+			return math.Remainder(x, y)
+		}
+	}
+	panic(fmt.Sprintf("invalid operation: %T %v %T", a, "remainder", b))
+}
+
+func remainderVec(a, b interface{}) interface{} {
+	switch x := a.(type) {
+	case float32:
+		return remainderVec(repeatFloat32(x, lenVec(b)), b)
+	case []float32:
+		switch y := b.(type) {
+		case float32:
+			return remainderVec(a, repeatFloat32(y, lenVec(a)))
+		case []float32:
+			return remainderVecFloat32(x, y)
+		case float64:
+			return remainderVec(a, repeatFloat64(y, lenVec(a)))
+		case []float64:
+			return remainderVecFloat64(castFloat64(x), y)
+		}
+	case float64:
+		return remainderVec(repeatFloat64(x, lenVec(b)), b)
+	case []float64:
+		switch y := b.(type) {
+		case float32:
+			return remainderVec(a, repeatFloat32(y, lenVec(a)))
+		case []float32:
+			return remainderVecFloat64(x, castFloat64(y))
+		case float64:
+			return remainderVec(a, repeatFloat64(y, lenVec(a)))
+		case []float64:
+			return remainderVecFloat64(x, y)
+		}
+	}
+	panic(fmt.Sprintf("invalid operation: %v %T %T", "Remainder", a, b))
+}
+
+func remainderVecFloat32(a, b []float32) interface{} {
+	outSize := len(a)
+	if len(b) < len(a) {
+		outSize = len(b)
+	}
+	out := make([]float64, outSize)
+	for j, _ := range a {
+		out[j] = RemainderFloat32(a[j], b[j])
+	}
+	return out
+}
+
+func remainderVecFloat64(a, b []float64) interface{} {
+	outSize := len(a)
+	if len(b) < len(a) {
+		outSize = len(b)
+	}
+	out := make([]float64, outSize)
+	for j, _ := range a {
+		out[j] = RemainderFloat64(a[j], b[j])
+	}
+	return out
+}
+
 func max(a, b interface{}) interface{} {
 	switch x := a.(type) {
 	case float32:
@@ -1992,6 +2262,30 @@ func MinFloat64(a, b float64) float64 {
 		return a
 	}
 	return b
+}
+
+func ModFloat32(a, b float32) float64 {
+	return math.Mod(float64(a), float64(b))
+}
+
+func ModFloat64(a, b float64) float64 {
+	return math.Mod(a, b)
+}
+
+func PowFloat32(a, b float32) float64 {
+	return math.Pow(float64(a), float64(b))
+}
+
+func PowFloat64(a, b float64) float64 {
+	return math.Pow(a, b)
+}
+
+func RemainderFloat32(a, b float32) float64 {
+	return math.Remainder(float64(a), float64(b))
+}
+
+func RemainderFloat64(a, b float64) float64 {
+	return math.Remainder(a, b)
 }
 
 func lenVec(a interface{}) int {
